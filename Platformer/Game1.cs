@@ -29,6 +29,7 @@ public class Game1 : Core
 
     protected override void Update(GameTime gameTime)
     {
+        _inputHandler.HandleInput();
         base.Update(gameTime);
     }
 
