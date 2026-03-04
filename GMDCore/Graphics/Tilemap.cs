@@ -41,12 +41,12 @@ public class Tilemap
         SetTile(index, tilesetID);
     }
 
-    public TextureRegion GetTile(int index)
+    public Tile GetTile(int index)
     {
         return _tileset.GetTile(_tiles[index]);
     }
 
-    public TextureRegion GetTile(int column, int row)
+    public Tile GetTile(int column, int row)
     {
         int index = row * Columns + column;
         return GetTile(index);
@@ -57,13 +57,13 @@ public class Tilemap
         for (int i = 0; i < Count; i++)
         {
             int tilesetIndex = _tiles[i];
-            TextureRegion tile = _tileset.GetTile(tilesetIndex);
+            Tile tile = _tileset.GetTile(tilesetIndex);
 
             int x = i % Columns;
             int y = i / Columns;
 
             Vector2 position = new(x * TileWidth, y * TileHeight);
-            tile.Draw(spriteBatch, position, Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 1.0f);
+            tile.Image.Draw(spriteBatch, position, Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 1.0f);
         }
     }
 

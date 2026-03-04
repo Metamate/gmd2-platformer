@@ -19,6 +19,7 @@ public class Game1 : Core
     protected override void Initialize()
     {
         base.Initialize();
+        GenerateLevel();
     }
 
     protected override void LoadContent()
@@ -44,5 +45,10 @@ public class Game1 : Core
         SpriteBatch.End();
 
         base.Draw(gameTime);
+    }
+
+    private void GenerateLevel()
+    {
+        
     }
 }

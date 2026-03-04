@@ -2,7 +2,7 @@ namespace GMDCore.Graphics;
 
 public class Tileset
 {
-    private readonly TextureRegion[] _tiles;
+    private readonly Tile[] _tiles;
     public int TileWidth { get; }
     public int TileHeight { get; }
     public int Columns { get; }
@@ -18,19 +18,19 @@ public class Tileset
         Count = Columns * Rows;
 
         // Create the texture regions that make up each individual tile
-        _tiles = new TextureRegion[Count];
+        _tiles = new Tile[Count];
 
         for (int i = 0; i < Count; i++)
         {
             int x = i % Columns * tileWidth;
             int y = i / Columns * tileHeight;
-            _tiles[i] = new TextureRegion(textureRegion.Texture, textureRegion.SourceRectangle.X + x, textureRegion.SourceRectangle.Y + y, tileWidth, tileHeight);
+            _tiles[i] = new Tile(i, new TextureRegion(textureRegion.Texture, textureRegion.SourceRectangle.X + x, textureRegion.SourceRectangle.Y + y, tileWidth, tileHeight), false, false);
         }
     }
 
-    public TextureRegion GetTile(int index) => _tiles[index];
+    public Tile GetTile(int index) => _tiles[index];
 
-    public TextureRegion GetTile(int column, int row)
+    public Tile GetTile(int column, int row)
     {
         int index = row * Columns + column;
         return GetTile(index);
