@@ -24,7 +24,7 @@ public class Tileset
         {
             int x = i % Columns * tileWidth;
             int y = i / Columns * tileHeight;
-            _tiles[i] = new Tile(i, new TextureRegion(textureRegion.Texture, textureRegion.SourceRectangle.X + x, textureRegion.SourceRectangle.Y + y, tileWidth, tileHeight), false, false);
+            _tiles[i] = new Tile(i, new TextureRegion(textureRegion.Texture, textureRegion.SourceRectangle.X + x, textureRegion.SourceRectangle.Y + y, tileWidth, tileHeight), false);
         }
     }
 

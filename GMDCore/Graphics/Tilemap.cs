@@ -10,19 +10,19 @@ namespace GMDCore.Graphics;
 
 public class Tilemap
 {
-    private readonly Tileset _tileset;
     private readonly int[] _tiles;
 
     public int Rows { get; }
     public int Columns { get; }
     public int Count { get; }
     public Vector2 Scale { get; set; }
-    public float TileWidth => _tileset.TileWidth * Scale.X;
-    public float TileHeight => _tileset.TileHeight * Scale.Y;
+    public Tileset Tileset { get; set; }
+    public float TileWidth => Tileset.TileWidth * Scale.X;
+    public float TileHeight => Tileset.TileHeight * Scale.Y;
 
     public Tilemap(Tileset tileset, int columns, int rows)
     {
-        _tileset = tileset;
+        Tileset = tileset;
         Rows = rows;
         Columns = columns;
         Count = Columns * Rows;
@@ -43,7 +43,7 @@ public class Tilemap
 
     public Tile GetTile(int index)
     {
-        return _tileset.GetTile(_tiles[index]);
+        return Tileset.GetTile(_tiles[index]);
     }
 
     public Tile GetTile(int column, int row)
@@ -52,18 +52,31 @@ public class Tilemap
         return GetTile(index);
     }
 
+    public Tile PointToTile(Vector2 point)
+    {
+        int column = (int)(point.X / TileWidth);
+        int row = (int)(point.Y / TileHeight);
+
+        if (column < 0 || column >= Columns || row < 0 || row >= Rows)
+        {
+            throw new ArgumentOutOfRangeException(nameof(point), "Point is outside the bounds of the tilemap.");
+        }
+
+        return GetTile(column, row);
+    }
+
     public void Draw(SpriteBatch spriteBatch)
     {
         for (int i = 0; i < Count; i++)
         {
             int tilesetIndex = _tiles[i];
-            Tile tile = _tileset.GetTile(tilesetIndex);
+            Tile tile = Tileset.GetTile(tilesetIndex);
 
             int x = i % Columns;
             int y = i / Columns;
 
             Vector2 position = new(x * TileWidth, y * TileHeight);
-            tile.Image.Draw(spriteBatch, position, Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 1.0f);
+            tile.Draw(spriteBatch, position, Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 1.0f);
         }
     }
 
@@ -108,10 +121,10 @@ public class Tilemap
         Texture2D texture = content.Load<Texture2D>(contentPath);
 
         // Create the texture region from the texture
-        TextureRegion textureRegion = new TextureRegion(texture, x, y, width, height);
+        TextureRegion textureRegion = new(texture, x, y, width, height);
 
         // Create the tileset using the texture region
-        Tileset tileset = new Tileset(textureRegion, tileWidth, tileHeight);
+        Tileset tileset = new(textureRegion, tileWidth, tileHeight);
 
         // The <Tiles> element contains lines of strings where each line
         // represents a row in the tilemap.  Each line is a space

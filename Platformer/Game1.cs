@@ -10,6 +10,7 @@ public class Game1 : Core
     public const int VirtualWidth = 320;
     public const int VirtualHeight = 180;
     private InputHandler _inputHandler;
+    private LevelMaker _levelMaker;
     private Tilemap _tilemap;
 
     public Game1() : base("Platformer", 1280, 720, VirtualWidth, VirtualHeight)
@@ -19,13 +20,13 @@ public class Game1 : Core
     protected override void Initialize()
     {
         base.Initialize();
-        GenerateLevel();
+        _levelMaker = new LevelMaker();
+        _tilemap = _levelMaker.Generate(100, 10, Content);
+        _inputHandler = new InputHandler(_levelMaker, _tilemap);
     }
 
     protected override void LoadContent()
     {
-        TextureAtlas atlas = TextureAtlas.FromFile(Content, "images/atlas-definition.xml");
-        _tilemap = Tilemap.FromFile(Content, "images/tilemap-definition.xml");
     }
 
     protected override void Update(GameTime gameTime)
@@ -40,15 +41,10 @@ public class Game1 : Core
 
         SpriteBatch.Begin(transformMatrix: ScreenScaleMatrix, samplerState: SamplerState.PointClamp);
 
-
+        _tilemap.Draw(SpriteBatch);
 
         SpriteBatch.End();
 
         base.Draw(gameTime);
-    }
-
-    private void GenerateLevel()
-    {
-        
     }
 }
