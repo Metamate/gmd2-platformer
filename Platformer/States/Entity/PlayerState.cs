@@ -17,10 +17,9 @@ public abstract class PlayerState
         Player = player;
     }
 
-    protected void EnsureRegion(string name, int x, int y, int w, int h)
+    protected void SetAnimation(string name)
     {
-        try { Player.Atlas.GetRegion(name); }
-        catch { Player.Atlas.AddRegion(name, x, y, w, h); }
+        Sprite = Player.Atlas.CreateAnimatedSprite(name);
     }
 
     public virtual void Enter() 

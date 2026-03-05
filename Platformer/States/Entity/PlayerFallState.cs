@@ -8,8 +8,7 @@ public class PlayerFallState(Player player) : PlayerState(player)
 {
     public override void Enter()
     {
-        // Define fall animation here when ready
-        // _sprite = ...
+        SetAnimation("fall-animation");
         base.Enter();
     }
 

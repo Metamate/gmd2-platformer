@@ -6,24 +6,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Platformer.States.Entity;
 
-public class PlayerDuckState : PlayerState
+public class PlayerDuckState(Player player) : PlayerState(player)
 {
-    public PlayerDuckState(Player player) : base(player)
-    {
-        // Define duck frame (assuming frame 10 for now)
-        EnsureRegion("duck_frame", 160, 0, 16, 20);
-
-        // Define duck animation
-        try { Player.Atlas.GetAnimation("duck"); }
-        catch 
-        { 
-            Player.Atlas.AddAnimation("duck", new Animation(
-                [ Player.Atlas.GetRegion("duck_frame") ], 
-                TimeSpan.FromMilliseconds(500)
-            )); 
-        }
-
-        Sprite = Player.Atlas.CreateAnimatedSprite("duck");
+    public override void Enter() 
+    { 
+        SetAnimation("duck-animation");
+        base.Enter();
     }
 
     protected override void HandleHorizontalMovement(GameTime gameTime)

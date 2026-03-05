@@ -18,9 +18,9 @@ namespace Platformer
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
 
-        public Player(Texture2D texture)
+        public Player(TextureAtlas textureAtlas)
         {
-            _atlas = new TextureAtlas(texture);
+            _atlas = textureAtlas;
             ChangeState(new PlayerIdleState(this));
             Position = new Vector2(LevelMakerBase.TileSize * 3, Game1.VirtualHeight - (LevelMakerBase.TileSize * 3 + Sprite.Height));
         }

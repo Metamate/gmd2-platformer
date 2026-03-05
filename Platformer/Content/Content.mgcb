@@ -13,6 +13,9 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin images/alien.xml
+/copy:images/alien.xml
+
 #begin images/backgrounds.png
 /importer:TextureImporter
 /processor:TextureProcessor

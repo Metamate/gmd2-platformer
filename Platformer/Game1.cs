@@ -30,8 +30,8 @@ public class Game1 : Core
         _background = _levelMaker.GetRandomBackground();
         _inputHandler = new InputHandler(_levelMaker, _tilemap, _background);
 
-        Texture2D alienTex = Content.Load<Texture2D>("images/blue_alien");
-        _player = new Player(alienTex);
+        TextureAtlas alienAtlas = TextureAtlas.FromFile(Content, "images/alien.xml");
+        _player = new Player(alienAtlas);
     }
 
     protected override void LoadContent()

@@ -8,8 +8,7 @@ public class PlayerJumpState(Player player) : PlayerState(player)
 {
     public override void Enter()
     {
-        // Define jump animation here when ready
-        // _sprite = ...
+        SetAnimation("jump-animation");
         base.Enter();
     }
 }
