@@ -37,23 +37,11 @@ public class PlayerWalkState : PlayerState
 
     public override void Update(GameTime gameTime)
     {
-        bool left = Core.Input.Keyboard.IsKeyDown(Keys.Left);
-        bool right = Core.Input.Keyboard.IsKeyDown(Keys.Right);
+        base.Update(gameTime);
 
-        if (right)
-        {
-            Player.Position = new Vector2(Player.Position.X + Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, Player.Position.Y);
-            Player.Sprite.Effects = SpriteEffects.None;
-        }
-        else if (left)
-        {
-            Player.Position = new Vector2(Player.Position.X - Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, Player.Position.Y);
-            Player.Sprite.Effects = SpriteEffects.FlipHorizontally;
-        }
-        else
+        if (Player.Velocity.X == 0)
         {
             Player.ChangeState(new PlayerIdleState(Player));
         }
-        base.Update(gameTime);
     }
 }

@@ -10,6 +10,8 @@ public abstract class PlayerState
     protected Player Player { get; }
     protected AnimatedSprite Sprite { get; set; }
 
+    protected const float MoveSpeed = 60f;
+
     protected PlayerState(Player player)
     {
         Player = player;
@@ -31,11 +33,29 @@ public abstract class PlayerState
 
     public virtual void Exit()
     {
-        Sprite.Effects = SpriteEffects.None;
+        if (Sprite != null)
+            Sprite.Effects = SpriteEffects.None;
+    }
+
+    protected virtual void HandleHorizontalMovement(GameTime gameTime)
+    {
+        bool left = GMDCore.Core.Input.Keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left);
+        bool right = GMDCore.Core.Input.Keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Right);
+
+        float horizontal = 0;
+        if (left) horizontal -= 1;
+        if (right) horizontal += 1;
+
+        Player.Velocity = new Vector2(horizontal * MoveSpeed, Player.Velocity.Y);
+
+        if (horizontal > 0) Sprite.Effects = SpriteEffects.None;
+        else if (horizontal < 0) Sprite.Effects = SpriteEffects.FlipHorizontally;
     }
     
     public virtual void Update(GameTime gameTime)
     {
+        HandleHorizontalMovement(gameTime);
+        Player.Position += Player.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
         Sprite.Update(gameTime);
     }
 
