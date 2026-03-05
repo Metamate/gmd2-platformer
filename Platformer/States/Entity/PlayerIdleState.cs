@@ -34,5 +34,10 @@ public class PlayerIdleState : PlayerState
         {
             Player.ChangeState(new PlayerWalkState(Player));
         }
+        
+        if (GMDCore.Core.Input.Keyboard.IsKeyDown(Keys.Down))
+        {
+            Player.ChangeState(new PlayerDuckState(Player));
+        }
     }
 }
