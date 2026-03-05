@@ -15,6 +15,7 @@ public class Game1 : Core
     private LevelMakerBase _levelMaker;
     private Tilemap _tilemap;
     private TextureRegion _background;
+    private Player _player;
 
     public Game1() : base("Platformer", 1280, 720, VirtualWidth, VirtualHeight)
     {
@@ -27,6 +28,9 @@ public class Game1 : Core
         _tilemap = _levelMaker.Generate(100, 9);
         _background = _levelMaker.GetRandomBackground();
         _inputHandler = new InputHandler(_levelMaker, _tilemap, _background);
+
+        Texture2D alienTex = Content.Load<Texture2D>("images/blue_alien");
+        _player = new Player(alienTex);
     }
 
     protected override void LoadContent()
@@ -36,6 +40,7 @@ public class Game1 : Core
     protected override void Update(GameTime gameTime)
     {
         _inputHandler.HandleInput();
+        _player.Update(gameTime);
         base.Update(gameTime);
     }
 
@@ -47,6 +52,7 @@ public class Game1 : Core
 
         _background.Draw(SpriteBatch, Vector2.Zero, Color.White);
         _tilemap.Draw(SpriteBatch);
+        _player.Draw(SpriteBatch);
 
         SpriteBatch.End();
 
