@@ -1,17 +1,20 @@
-﻿using GMDCore;
+﻿using System;
+using GMDCore;
 using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Platformer.LevelMaker;
 
 namespace Platformer;
 
 public class Game1 : Core
 {
-    public const int VirtualWidth = 320;
-    public const int VirtualHeight = 180;
+    public const int VirtualWidth = 256;
+    public const int VirtualHeight = 144;
     private InputHandler _inputHandler;
-    private LevelMaker _levelMaker;
+    private LevelMakerBase _levelMaker;
     private Tilemap _tilemap;
+    private TextureRegion _background;
 
     public Game1() : base("Platformer", 1280, 720, VirtualWidth, VirtualHeight)
     {
@@ -20,8 +23,9 @@ public class Game1 : Core
     protected override void Initialize()
     {
         base.Initialize();
-        _levelMaker = new LevelMaker();
-        _tilemap = _levelMaker.Generate(100, 10, Content);
+        _levelMaker = new SimpleLevelMaker(Content);
+        _tilemap = _levelMaker.Generate(100, 10);
+        _background = _levelMaker.Backgrounds[Random.Shared.Next(_levelMaker.Backgrounds.Count)];
         _inputHandler = new InputHandler(_levelMaker, _tilemap);
     }
 
@@ -41,7 +45,8 @@ public class Game1 : Core
 
         SpriteBatch.Begin(transformMatrix: ScreenScaleMatrix, samplerState: SamplerState.PointClamp);
 
-        _tilemap.Draw(SpriteBatch);
+        _background.Draw(SpriteBatch, Vector2.Zero, Color.White);
+        //_tilemap.Draw(SpriteBatch);
 
         SpriteBatch.End();
 

@@ -64,9 +64,6 @@
 /processorParam:TextureFormat=Color
 /build:images/tile_tops.png
 
-#begin images/tilemap-definition.xml
-/copy:images/tilemap-definition.xml
-
 #begin images/tiles.png
 /importer:TextureImporter
 /processor:TextureProcessor
