@@ -15,7 +15,7 @@ public class SimpleLevelMaker(ContentManager content) : LevelMakerBase(content)
             int x = i % tilemap.Columns;
             int y = i / tilemap.Columns;
 
-            tilemap.SetTile(x, y, 0);
+            tilemap.SetTile(x, y, new Tile(0, false));
         }
 
         return tilemap;

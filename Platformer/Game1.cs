@@ -46,7 +46,7 @@ public class Game1 : Core
         SpriteBatch.Begin(transformMatrix: ScreenScaleMatrix, samplerState: SamplerState.PointClamp);
 
         _background.Draw(SpriteBatch, Vector2.Zero, Color.White);
-        //_tilemap.Draw(SpriteBatch);
+        _tilemap.Draw(SpriteBatch);
 
         SpriteBatch.End();
 

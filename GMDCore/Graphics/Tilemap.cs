@@ -10,49 +10,51 @@ namespace GMDCore.Graphics;
 
 public class Tilemap
 {
-    private readonly int[] _tiles;
+    private readonly Tile[] _tiles;
 
     public int Rows { get; }
     public int Columns { get; }
     public int Count { get; }
     public Vector2 Scale { get; set; }
     public Tileset Tileset { get; set; }
+    public Tileset Topperset { get; set; }
     public float TileWidth => Tileset.TileWidth * Scale.X;
     public float TileHeight => Tileset.TileHeight * Scale.Y;
 
-    public Tilemap(Tileset tileset, int columns, int rows)
+    public Tilemap(Tileset tileset, int columns, int rows, Tileset topperset = null)
     {
         Tileset = tileset;
+        Topperset = topperset;
         Rows = rows;
         Columns = columns;
         Count = Columns * Rows;
         Scale = Vector2.One;
-        _tiles = new int[Count];
+        _tiles = new Tile[Count];
     }
 
-    public void SetTile(int index, int tilesetID)
+    public void SetTile(int index, Tile tile)
     {
-        _tiles[index] = tilesetID;
+        _tiles[index] = tile;
     }
 
-    public void SetTile(int column, int row, int tilesetID)
+    public void SetTile(int column, int row, Tile tile)
     {
         int index = row * Columns + column;
-        SetTile(index, tilesetID);
+        SetTile(index, tile);
     }
 
-    public TextureRegion GetTile(int index)
+    public Tile GetTile(int index)
     {
-        return Tileset.GetTile(_tiles[index]);
+        return _tiles[index];
     }
 
-    public TextureRegion GetTile(int column, int row)
+    public Tile GetTile(int column, int row)
     {
         int index = row * Columns + column;
         return GetTile(index);
     }
 
-    public TextureRegion PointToTile(Vector2 point)
+    public Tile PointToTile(Vector2 point)
     {
         int column = (int)(point.X / TileWidth);
         int row = (int)(point.Y / TileHeight);
@@ -69,14 +71,26 @@ public class Tilemap
     {
         for (int i = 0; i < Count; i++)
         {
-            int tilesetIndex = _tiles[i];
-            TextureRegion tile = Tileset.GetTile(tilesetIndex);
+            Tile tileData = _tiles[i];
 
             int x = i % Columns;
             int y = i / Columns;
 
             Vector2 position = new(x * TileWidth, y * TileHeight);
-            tile.Draw(spriteBatch, position, Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 1.0f);
+
+            // Draw base tile
+            if (tileData.GraphicId >= 0 && Tileset != null)
+            {
+                TextureRegion baseGraphic = Tileset.GetTile(tileData.GraphicId);
+                baseGraphic.Draw(spriteBatch, position, Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 1.0f);
+            }
+
+            // Draw topper if it exists
+            if (tileData.HasTopper && Topperset != null)
+            {
+                TextureRegion topperGraphic = Topperset.GetTile(tileData.TopperId);
+                topperGraphic.Draw(spriteBatch, position, Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 1.0f);
+            }
         }
     }
 
@@ -163,8 +177,11 @@ public class Tilemap
                 // Get the tileset index for this location
                 int tilesetIndex = int.Parse(columns[column]);
 
-                // Add that region to the tilemap at the row and column location
-                tilemap.SetTile(column, row, tilesetIndex);
+                // Create a basic tile wrapper with this graphic
+                Tile tile = new() { GraphicId = tilesetIndex };
+
+                // Add that tile to the tilemap at the row and column location
+                tilemap.SetTile(column, row, tile);
             }
         }
 
