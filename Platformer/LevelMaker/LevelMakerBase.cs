@@ -81,5 +81,15 @@ public abstract class LevelMakerBase
         return Tilesets[Random.Shared.Next(Tilesets.Count)];
     }
 
+    public Tileset GetRandomTopperset()
+    {
+        return Toppersets[Random.Shared.Next(Toppersets.Count)];
+    }
+
+    public TextureRegion GetRandomBackground()
+    {
+        return Backgrounds[Random.Shared.Next(Backgrounds.Count)];
+    }
+
     public abstract Tilemap Generate(int columns, int rows);
 }

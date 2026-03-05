@@ -23,10 +23,10 @@ public class Game1 : Core
     protected override void Initialize()
     {
         base.Initialize();
-        _levelMaker = new SimpleLevelMaker(Content);
-        _tilemap = _levelMaker.Generate(100, 10);
-        _background = _levelMaker.Backgrounds[Random.Shared.Next(_levelMaker.Backgrounds.Count)];
-        _inputHandler = new InputHandler(_levelMaker, _tilemap);
+        _levelMaker = new FlatLevelMaker(Content);
+        _tilemap = _levelMaker.Generate(100, 9);
+        _background = _levelMaker.GetRandomBackground();
+        _inputHandler = new InputHandler(_levelMaker, _tilemap, _background);
     }
 
     protected override void LoadContent()

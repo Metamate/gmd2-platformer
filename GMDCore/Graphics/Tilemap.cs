@@ -30,6 +30,7 @@ public class Tilemap
         Count = Columns * Rows;
         Scale = Vector2.One;
         _tiles = new Tile[Count];
+        Array.Fill(_tiles, Tile.Empty);
     }
 
     public void SetTile(int index, Tile tile)
