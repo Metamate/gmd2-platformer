@@ -6,14 +6,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Platformer.States.Entity;
 
-public class PlayerIdleState(Player player) : PlayerState(player)
+public class PlayerIdleState(Player player) : PlayerStateBase(player)
 {
-    public override void Enter() 
-    { 
+    public override void Enter()
+    {
         SetAnimation("idle-animation");
-        base.Enter();
     }
-    
+
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
@@ -22,10 +21,20 @@ public class PlayerIdleState(Player player) : PlayerState(player)
         {
             Player.ChangeState(new PlayerWalkState(Player));
         }
-        
-        if (GMDCore.Core.Input.Keyboard.IsKeyDown(Keys.Down))
+
+        if (GameController.Down)
         {
             Player.ChangeState(new PlayerDuckState(Player));
+        }
+
+        if (GameController.Jump)
+        {
+            Player.ChangeState(new PlayerJumpState(Player));
+        }
+
+        if (Player.Velocity.Y > 0.1f) // Small epsilon to avoid jitter
+        {
+            Player.ChangeState(new PlayerFallState(Player));
         }
     }
 }

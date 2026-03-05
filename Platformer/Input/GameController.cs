@@ -6,10 +6,10 @@ public static class GameController
 {
     public static bool Jump => Core.Input.Keyboard.WasKeyJustPressed(Keys.Space);
     public static bool Randomize => Core.Input.Keyboard.WasKeyJustPressed(Keys.R);
-    public static bool Left => Core.Input.Keyboard.IsKeyDown(Keys.Left);
-    public static bool Right => Core.Input.Keyboard.IsKeyDown(Keys.Right);
-    public static bool Up => Core.Input.Keyboard.IsKeyDown(Keys.Up);
-    public static bool Down => Core.Input.Keyboard.IsKeyDown(Keys.Down);
+    public static bool Left => Core.Input.Keyboard.IsKeyDown(Keys.Left) || Core.Input.Keyboard.IsKeyDown(Keys.A);
+    public static bool Right => Core.Input.Keyboard.IsKeyDown(Keys.Right) || Core.Input.Keyboard.IsKeyDown(Keys.D);
+    public static bool Up => Core.Input.Keyboard.IsKeyDown(Keys.Up) || Core.Input.Keyboard.IsKeyDown(Keys.W);
+    public static bool Down => Core.Input.Keyboard.IsKeyDown(Keys.Down) || Core.Input.Keyboard.IsKeyDown(Keys.S);
     public static Vector2 Movement => new(
         Left ? -1 : Right ? 1 : 0,
         Up ? -1 : Down ? 1 : 0

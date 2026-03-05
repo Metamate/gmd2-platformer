@@ -11,7 +11,7 @@ namespace Platformer
     public class Player
     {
         private TextureAtlas _atlas;
-        private PlayerState _currentState;
+        private PlayerStateBase _currentState;
 
         public TextureAtlas Atlas => _atlas;
         public AnimatedSprite Sprite { get; set; }
@@ -25,7 +25,7 @@ namespace Platformer
             Position = new Vector2(LevelMakerBase.TileSize * 3, Game1.VirtualHeight - (LevelMakerBase.TileSize * 3 + Sprite.Height));
         }
 
-        public void ChangeState(PlayerState newState)
+        public void ChangeState(PlayerStateBase newState)
         {
             var oldEffects = Sprite?.Effects ?? SpriteEffects.None;
             _currentState?.Exit();

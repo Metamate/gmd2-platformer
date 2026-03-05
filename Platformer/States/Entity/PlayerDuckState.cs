@@ -6,20 +6,19 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Platformer.States.Entity;
 
-public class PlayerDuckState(Player player) : PlayerState(player)
+public class PlayerDuckState(Player player) : PlayerStateBase(player)
 {
-    public override void Enter() 
-    { 
+    public override void Enter()
+    {
         SetAnimation("duck-animation");
-        base.Enter();
     }
 
     protected override void HandleHorizontalMovement(GameTime gameTime)
     {
         // Shuts off horizontal movement by not calling base
         // But we still allow flipping
-        if (GameController.Right) Sprite.Effects = SpriteEffects.None;
-        else if (GameController.Left) Sprite.Effects = SpriteEffects.FlipHorizontally;
+        if (GameController.Right) Player.Sprite.Effects = SpriteEffects.None;
+        else if (GameController.Left) Player.Sprite.Effects = SpriteEffects.FlipHorizontally;
 
         Player.Velocity = new Vector2(0, Player.Velocity.Y);
     }

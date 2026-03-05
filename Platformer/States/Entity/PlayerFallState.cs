@@ -4,12 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Platformer.States.Entity;
 
-public class PlayerFallState(Player player) : PlayerState(player)
+public class PlayerFallState(Player player) : PlayerStateBase(player)
 {
     public override void Enter()
     {
         SetAnimation("fall-animation");
-        base.Enter();
     }
 
     public override void Update(GameTime gameTime)
