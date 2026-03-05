@@ -44,7 +44,7 @@ public class PlayerWalkState : PlayerState
             Player.ChangeState(new PlayerIdleState(Player));
         }
 
-        if (GMDCore.Core.Input.Keyboard.IsKeyDown(Keys.Down))
+        if (GameController.Down)
         {
             Player.ChangeState(new PlayerDuckState(Player));
         }

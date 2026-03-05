@@ -30,11 +30,8 @@ public class PlayerDuckState : PlayerState
     {
         // Shuts off horizontal movement by not calling base
         // But we still allow flipping
-        bool left = GMDCore.Core.Input.Keyboard.IsKeyDown(Keys.Left);
-        bool right = GMDCore.Core.Input.Keyboard.IsKeyDown(Keys.Right);
-
-        if (right) Sprite.Effects = SpriteEffects.None;
-        else if (left) Sprite.Effects = SpriteEffects.FlipHorizontally;
+        if (GameController.Right) Sprite.Effects = SpriteEffects.None;
+        else if (GameController.Left) Sprite.Effects = SpriteEffects.FlipHorizontally;
 
         Player.Velocity = new Vector2(0, Player.Velocity.Y);
     }
@@ -43,7 +40,7 @@ public class PlayerDuckState : PlayerState
     {
         base.Update(gameTime);
 
-        if (!GMDCore.Core.Input.Keyboard.IsKeyDown(Keys.Down))
+        if (!GameController.Down)
         {
             Player.ChangeState(new PlayerIdleState(Player));
         }

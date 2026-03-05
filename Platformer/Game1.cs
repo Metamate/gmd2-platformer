@@ -3,6 +3,7 @@ using GMDCore;
 using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Platformer.Input;
 using Platformer.LevelMaker;
 
 namespace Platformer;

@@ -39,12 +39,9 @@ public abstract class PlayerState
 
     protected virtual void HandleHorizontalMovement(GameTime gameTime)
     {
-        bool left = GMDCore.Core.Input.Keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left);
-        bool right = GMDCore.Core.Input.Keyboard.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Right);
-
         float horizontal = 0;
-        if (left) horizontal -= 1;
-        if (right) horizontal += 1;
+        if (GameController.Left) horizontal -= 1;
+        if (GameController.Right) horizontal += 1;
 
         Player.Velocity = new Vector2(horizontal * MoveSpeed, Player.Velocity.Y);
 
