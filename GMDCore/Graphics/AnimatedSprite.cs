@@ -12,11 +12,17 @@ public class AnimatedSprite : Sprite
     public Animation Animation
     {
         get => _animation;
-        set
-        {
-            _animation = value;
-            Region = _animation.Frames[0];
-        }
+        set => Play(value);
+    }
+
+    public void Play(Animation animation)
+    {
+        if (_animation == animation) return;
+
+        _animation = animation;
+        _currentFrame = 0;
+        _elapsed = TimeSpan.Zero;
+        Region = _animation.Frames[0];
     }
 
     public AnimatedSprite() { }

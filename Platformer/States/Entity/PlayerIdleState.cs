@@ -32,7 +32,7 @@ public class PlayerIdleState(Player player) : PlayerStateBase(player)
             Player.ChangeState(new PlayerJumpState(Player));
         }
 
-        if (Player.Velocity.Y > 0.1f) // Small epsilon to avoid jitter
+        if (!IsOnGround())
         {
             Player.ChangeState(new PlayerFallState(Player));
         }

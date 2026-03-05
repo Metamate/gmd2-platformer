@@ -28,7 +28,7 @@ public class PlayerWalkState(Player player) : PlayerStateBase(player)
             Player.ChangeState(new PlayerJumpState(Player));
         }
 
-        if (Player.Velocity.Y > 0.1f)
+        if (!IsOnGround())
         {
             Player.ChangeState(new PlayerFallState(Player));
         }

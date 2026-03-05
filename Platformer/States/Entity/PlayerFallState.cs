@@ -14,6 +14,13 @@ public class PlayerFallState(Player player) : PlayerStateBase(player)
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        // Add gravity and falling logic here
+
+        if (IsOnGround())
+        {
+            if (Player.Velocity.X == 0)
+                Player.ChangeState(new PlayerIdleState(Player));
+            else
+                Player.ChangeState(new PlayerWalkState(Player));
+        }
     }
 }

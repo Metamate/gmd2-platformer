@@ -19,7 +19,11 @@ public abstract class PlayerStateBase
 
     protected void SetAnimation(string name)
     {
-        Player.Sprite = Player.Atlas.CreateAnimatedSprite(name);
+        var animation = Player.Atlas.GetAnimation(name);
+        if (Player.Sprite == null)
+            Player.Sprite = new AnimatedSprite(animation);
+        else
+            Player.Sprite.Play(animation);
     }
 
     public virtual void Enter()
@@ -28,8 +32,6 @@ public abstract class PlayerStateBase
 
     public virtual void Exit()
     {
-        if (Player.Sprite != null)
-            Player.Sprite.Effects = SpriteEffects.None;
     }
 
     protected virtual void HandleHorizontalMovement(GameTime gameTime)
@@ -60,21 +62,18 @@ public abstract class PlayerStateBase
         Player.Position += Player.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
         // Temporary Floor Clamp (until we have real collision)
-        float groundY = Game1.VirtualHeight - (Platformer.LevelMaker.LevelMakerBase.TileSize * 3 + Player.Sprite.Height);
+        float groundY = GetGroundY();
         if (Player.Position.Y >= groundY)
         {
             Player.Position = new Vector2(Player.Position.X, groundY);
             Player.Velocity = new Vector2(Player.Velocity.X, 0);
-
-            // Handle landing transition
-            if (Player.Velocity.X == 0 && this is not PlayerIdleState && this is not PlayerDuckState)
-                Player.ChangeState(new PlayerIdleState(Player));
-            else if (Player.Velocity.X != 0 && this is not PlayerWalkState)
-                Player.ChangeState(new PlayerWalkState(Player));
         }
 
         Player.Sprite?.Update(gameTime);
     }
+
+    protected float GetGroundY() => Game1.VirtualHeight - (LevelMaker.LevelMakerBase.TileSize * 3 + Player.Sprite.Height);
+    protected bool IsOnGround() => Player.Position.Y >= GetGroundY() - 1f;
 
     public virtual void Draw(SpriteBatch spriteBatch)
     {

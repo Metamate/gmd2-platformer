@@ -27,13 +27,9 @@ namespace Platformer
 
         public void ChangeState(PlayerStateBase newState)
         {
-            var oldEffects = Sprite?.Effects ?? SpriteEffects.None;
             _currentState?.Exit();
             _currentState = newState;
             _currentState.Enter();
-
-            if (Sprite != null)
-                Sprite.Effects = oldEffects;
         }
 
         public void Update(GameTime gameTime)

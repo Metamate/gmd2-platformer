@@ -31,5 +31,10 @@ public class PlayerDuckState(Player player) : PlayerStateBase(player)
         {
             Player.ChangeState(new PlayerIdleState(Player));
         }
+
+        if (!IsOnGround())
+        {
+            Player.ChangeState(new PlayerFallState(Player));
+        }
     }
 }
