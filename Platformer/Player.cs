@@ -31,7 +31,6 @@ namespace Platformer
             Tilemap = tilemap;
             ChangeState(new PlayerIdleState(this));
 
-            // Spawn at column 3, in the first row
             Position = tilemap.TileToPoint(3, 0);
         }
 

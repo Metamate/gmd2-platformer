@@ -62,11 +62,11 @@ public abstract class PlayerStateBase
 
         float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        // 1. Resolve X (Move then Snap)
+        // Resolve X (Move then Snap)
         Player.Position = new Vector2(Player.Position.X + Player.Velocity.X * dt, Player.Position.Y);
         ResolveXCollisions();
 
-        // 2. Resolve Y (Move then Snap)
+        // Resolve Y (Move then Snap)
         Player.Position = new Vector2(Player.Position.X, Player.Position.Y + Player.Velocity.Y * dt);
         ResolveYCollisions();
 
@@ -112,18 +112,16 @@ public abstract class PlayerStateBase
 
     private bool CheckSideCollision(float x)
     {
-        Rectangle hitbox = Player.Hitbox;
-        // Check near the top and bottom of the side-edge
-        return Player.Tilemap.IsSolidAt(x, hitbox.Top + 2) ||
-               Player.Tilemap.IsSolidAt(x, hitbox.Bottom - 2);
+        // Check the top and bottom of the side-edge (slighthly inset)
+        return Player.Tilemap.IsSolidAt(x, Player.Hitbox.Top + 2) ||
+               Player.Tilemap.IsSolidAt(x, Player.Hitbox.Bottom - 2);
     }
 
     private bool CheckVerticalCollision(float y)
     {
-        Rectangle hitbox = Player.Hitbox;
-        // Check near the left and right of the top/bottom edge using GroundInset
-        return Player.Tilemap.IsSolidAt(hitbox.Left + GroundInset, y) ||
-               Player.Tilemap.IsSolidAt(hitbox.Right - GroundInset, y);
+        // Check left and right of the top/bottom edge (slightly inset using GroundInset)
+        return Player.Tilemap.IsSolidAt(Player.Hitbox.Left + GroundInset, y) ||
+               Player.Tilemap.IsSolidAt(Player.Hitbox.Right - GroundInset, y);
     }
 
     private void SnapToRight(float x)
