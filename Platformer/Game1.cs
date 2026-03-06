@@ -3,6 +3,7 @@ using GMDCore;
 using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Platformer.Graphics;
 using Platformer.Input;
 using Platformer.LevelMaker;
 
@@ -17,6 +18,7 @@ public class Game1 : Core
     private Tilemap _tilemap;
     private TextureRegion _background;
     private Player _player;
+    private Camera _camera;
 
     public Game1() : base("Platformer", 1280, 720, VirtualWidth, VirtualHeight)
     {
@@ -26,12 +28,13 @@ public class Game1 : Core
     {
         base.Initialize();
         _levelMaker = new FlatLevelMaker(Content);
-        _tilemap = _levelMaker.Generate(100, 9);
+        _tilemap = _levelMaker.Generate(20, 9);
         _background = _levelMaker.GetRandomBackground();
         _inputHandler = new InputHandler(_levelMaker, _tilemap, _background);
 
         TextureAtlas alienAtlas = TextureAtlas.FromFile(Content, "images/alien.xml");
         _player = new Player(alienAtlas);
+        _camera = new Camera();
     }
 
     protected override void LoadContent()
@@ -42,6 +45,12 @@ public class Game1 : Core
     {
         _inputHandler.HandleInput();
         _player.Update(gameTime);
+
+        float worldWidth = _tilemap.Columns * _tilemap.TileWidth;
+        float playerCenterX = _player.Position.X + (_player.Sprite.Width / 2f);
+        float clampedX = MathHelper.Clamp(playerCenterX, VirtualWidth / 2f, worldWidth - VirtualWidth / 2f);
+        _camera.Follow(new Vector2(clampedX, VirtualHeight / 2f), VirtualWidth, VirtualHeight);
+
         base.Update(gameTime);
     }
 
@@ -49,7 +58,7 @@ public class Game1 : Core
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        SpriteBatch.Begin(transformMatrix: ScreenScaleMatrix, samplerState: SamplerState.PointClamp);
+        SpriteBatch.Begin(transformMatrix: _camera.Transform * ScreenScaleMatrix, samplerState: SamplerState.PointClamp);
 
         _background.Draw(SpriteBatch, Vector2.Zero, Color.White);
         _tilemap.Draw(SpriteBatch);
