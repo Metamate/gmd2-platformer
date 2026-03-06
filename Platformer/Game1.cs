@@ -28,7 +28,7 @@ public class Game1 : Core
     {
         base.Initialize();
         _levelMaker = new FlatLevelMaker(Content);
-        _tilemap = _levelMaker.Generate(20, 9);
+        _tilemap = _levelMaker.Generate(30, 9);
         _background = _levelMaker.GetRandomBackground();
         _inputHandler = new InputHandler(_levelMaker, _tilemap, _background);
 
@@ -58,9 +58,20 @@ public class Game1 : Core
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
+        // Draw Background
+        float parallaxFactor = 0.5f;
+        float bgOffset = -(_camera.Position.X * parallaxFactor) % _background.Width;
+
+        SpriteBatch.Begin(transformMatrix: ScreenScaleMatrix, samplerState: SamplerState.PointClamp);
+        
+        _background.Draw(SpriteBatch, new Vector2(bgOffset, 0), Color.White);
+        _background.Draw(SpriteBatch, new Vector2(bgOffset + _background.Width, 0), Color.White);
+        
+        SpriteBatch.End();
+
+        // Draw World
         SpriteBatch.Begin(transformMatrix: _camera.Transform * ScreenScaleMatrix, samplerState: SamplerState.PointClamp);
 
-        _background.Draw(SpriteBatch, Vector2.Zero, Color.White);
         _tilemap.Draw(SpriteBatch);
         _player.Draw(SpriteBatch);
 
