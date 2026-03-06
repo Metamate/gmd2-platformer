@@ -7,15 +7,15 @@ using Platformer.LevelMaker;
 
 namespace Platformer.Input;
 
-public class InputHandler(LevelMakerBase levelMaker, Tilemap tilemap, TextureRegion background)
+public class InputHandler(LevelMakerBase levelMaker, Game1 game1)
 {
     public void HandleInput()
     {
         if (GameController.Randomize)
         {
-            tilemap.Tileset = levelMaker.GetRandomTileset();
-            tilemap.Topperset = levelMaker.GetRandomTopperset();
-            background.SetRegion(levelMaker.GetRandomBackground());
+            game1.Tilemap.Tileset = levelMaker.GetRandomTileset();
+            game1.Tilemap.Topperset = levelMaker.GetRandomTopperset();
+            game1.Background = levelMaker.GetRandomBackground();
         }
     }
 }

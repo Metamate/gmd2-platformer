@@ -9,13 +9,12 @@ namespace Platformer.LevelMaker;
 
 public abstract class LevelMakerBase
 {
+    private const int TileSize = 16;
     private const int TilesetsColumns = 6;
     private const int TilesetsRows = 10;
 
     private const int ToppersetsColumns = 6;
     private const int ToppersetsRows = 18;
-
-    public const int TileSize = 16;
 
     public List<Tileset> Tilesets { get; } = [];
     public List<Tileset> Toppersets { get; } = [];

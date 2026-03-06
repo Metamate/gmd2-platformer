@@ -14,15 +14,20 @@ namespace Platformer
         private PlayerStateBase _currentState;
 
         public TextureAtlas Atlas => _atlas;
+        public Tilemap Tilemap { get; }
         public AnimatedSprite Sprite { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
 
-        public Player(TextureAtlas textureAtlas)
+        public Player(TextureAtlas textureAtlas, Tilemap tilemap)
         {
             _atlas = textureAtlas;
+            Tilemap = tilemap;
             ChangeState(new PlayerIdleState(this));
-            Position = new Vector2(LevelMakerBase.TileSize * 3, Game1.VirtualHeight - (LevelMakerBase.TileSize * 3 + Sprite.Height));
+            
+            // Spawn at column 3, on top of the ground (which occupies the bottom 3 rows)
+            Vector2 spawnPoint = tilemap.TileToPoint(3, tilemap.Rows - 3);
+            Position = new Vector2(spawnPoint.X, spawnPoint.Y - Sprite.Height);
         }
 
         public void ChangeState(PlayerStateBase newState)

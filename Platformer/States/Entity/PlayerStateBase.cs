@@ -72,7 +72,12 @@ public abstract class PlayerStateBase
         Player.Sprite?.Update(gameTime);
     }
 
-    protected float GetGroundY() => Game1.VirtualHeight - (LevelMaker.LevelMakerBase.TileSize * 3 + Player.Sprite.Height);
+    protected float GetGroundY()
+    {
+        Vector2 groundTilePos = Player.Tilemap.TileToPoint(0, Player.Tilemap.Rows - 3);
+        return groundTilePos.Y - (Player.Sprite?.Height ?? 0);
+    }
+ 
     protected bool IsOnGround() => Player.Position.Y >= GetGroundY() - 1f;
 
     public virtual void Draw(SpriteBatch spriteBatch)

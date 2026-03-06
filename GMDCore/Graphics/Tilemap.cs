@@ -68,6 +68,11 @@ public class Tilemap
         return GetTile(column, row);
     }
 
+    public Vector2 TileToPoint(int column, int row)
+    {
+        return new Vector2(column * TileWidth, row * TileHeight);
+    }
+
     public void Draw(SpriteBatch spriteBatch)
     {
         for (int i = 0; i < Count; i++)

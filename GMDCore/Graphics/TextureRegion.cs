@@ -10,12 +10,6 @@ public class TextureRegion(Texture2D texture, int x, int y, int width, int heigh
     public int Width => SourceRectangle.Width;
     public int Height => SourceRectangle.Height;
 
-    public void SetRegion(TextureRegion other)
-    {
-        Texture = other.Texture;
-        SourceRectangle = other.SourceRectangle;
-    }
-
     public void Draw(SpriteBatch spriteBatch, Vector2 position, Color color)
     {
         Draw(spriteBatch, position, color, 0.0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.0f);
