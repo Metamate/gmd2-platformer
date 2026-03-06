@@ -57,15 +57,8 @@ public class Tilemap
 
     public Tile PointToTile(Vector2 point)
     {
-        int column = (int)(point.X / TileWidth);
-        int row = (int)(point.Y / TileHeight);
-
-        if (column < 0 || column >= Columns || row < 0 || row >= Rows)
-        {
+        return GetTileAt(point.X, point.Y) ?? 
             throw new ArgumentOutOfRangeException(nameof(point), "Point is outside the bounds of the tilemap.");
-        }
-
-        return GetTile(column, row);
     }
 
     public Vector2 TileToPoint(int column, int row)
@@ -75,15 +68,20 @@ public class Tilemap
 
     public bool IsSolidAt(float x, float y)
     {
+        return GetTileAt(x, y)?.IsSolid ?? false;
+    }
+
+    private Tile? GetTileAt(float x, float y)
+    {
         int column = (int)(x / TileWidth);
         int row = (int)(y / TileHeight);
 
         if (column < 0 || column >= Columns || row < 0 || row >= Rows)
         {
-            return false;
+            return null;
         }
 
-        return GetTile(column, row).IsSolid;
+        return GetTile(column, row);
     }
 
     public void Draw(SpriteBatch spriteBatch)

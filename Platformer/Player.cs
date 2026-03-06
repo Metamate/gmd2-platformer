@@ -19,7 +19,7 @@ namespace Platformer
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
 
-        public Rectangle Hitbox => new Rectangle(
+        public Rectangle Hitbox => new(
             (int)Position.X + 1,
             (int)Position.Y,
             (int)Sprite.Width - 2,
@@ -31,7 +31,7 @@ namespace Platformer
             _atlas = textureAtlas;
             Tilemap = tilemap;
             ChangeState(new PlayerIdleState(this));
-            
+
             // Spawn at column 3, on top of the ground (which occupies the bottom 3 rows)
             Vector2 spawnPoint = tilemap.TileToPoint(3, tilemap.Rows - 3);
             Position = new Vector2(spawnPoint.X, spawnPoint.Y - Sprite.Height);

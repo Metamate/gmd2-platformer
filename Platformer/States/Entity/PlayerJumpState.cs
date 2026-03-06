@@ -6,7 +6,7 @@ namespace Platformer.States.Entity;
 
 public class PlayerJumpState(Player player) : PlayerStateBase(player)
 {
-    private const float JumpImpulse = -250f;
+    private const float JumpImpulse = -300f;
 
     public override void Enter()
     {
