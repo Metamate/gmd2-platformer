@@ -1,9 +1,6 @@
-using System;
 using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Platformer.LevelMaker;
 using Platformer.States.Entity;
 
 namespace Platformer
@@ -32,9 +29,8 @@ namespace Platformer
             Tilemap = tilemap;
             ChangeState(new PlayerIdleState(this));
 
-            // Spawn at column 3, on top of the ground (which occupies the bottom 3 rows)
-            Vector2 spawnPoint = tilemap.TileToPoint(3, tilemap.Rows - 3);
-            Position = new Vector2(spawnPoint.X, spawnPoint.Y - Sprite.Height);
+            // Spawn at column 3, in the first row
+            Position = tilemap.TileToPoint(3, 0);
         }
 
         public void ChangeState(PlayerStateBase newState)

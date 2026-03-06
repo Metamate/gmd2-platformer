@@ -1,8 +1,6 @@
-using System;
-using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using Platformer.Input;
 
 namespace Platformer.States.Entity;
 

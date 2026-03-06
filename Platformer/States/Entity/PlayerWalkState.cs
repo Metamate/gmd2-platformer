@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Platformer.Input;
 
 namespace Platformer.States.Entity;
 

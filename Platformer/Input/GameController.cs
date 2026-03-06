@@ -2,6 +2,8 @@ using GMDCore;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+namespace Platformer.Input;
+
 public static class GameController
 {
     public static bool Jump => Core.Input.Keyboard.WasKeyJustPressed(Keys.Space);

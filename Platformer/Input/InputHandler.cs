@@ -1,8 +1,3 @@
-using System;
-using GMDCore;
-using GMDCore.Graphics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Platformer.LevelMaker;
 
 namespace Platformer.Input;

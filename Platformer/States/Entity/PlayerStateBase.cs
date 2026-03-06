@@ -1,7 +1,7 @@
 using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Platformer;
+using Platformer.Input;
 
 namespace Platformer.States.Entity;
 
@@ -99,7 +99,7 @@ public abstract class PlayerStateBase
                 Player.Tilemap.IsSolidAt(hitbox.Right, hitbox.Bottom - 2))
             {
                 int tileX = (int)(hitbox.Right / Player.Tilemap.TileWidth);
-                Player.Position = new Vector2(tileX * Player.Tilemap.TileWidth - (Player.Sprite.Width-1), Player.Position.Y);
+                Player.Position = new Vector2(tileX * Player.Tilemap.TileWidth - (Player.Sprite.Width - 1), Player.Position.Y);
                 Player.Velocity = new Vector2(0, Player.Velocity.Y);
             }
         }
@@ -109,7 +109,7 @@ public abstract class PlayerStateBase
                 Player.Tilemap.IsSolidAt(hitbox.Left, hitbox.Bottom - 2))
             {
                 int tileX = (int)(hitbox.Left / Player.Tilemap.TileWidth);
-                Player.Position = new Vector2((tileX + 1) * Player.Tilemap.TileWidth-1, Player.Position.Y);
+                Player.Position = new Vector2((tileX + 1) * Player.Tilemap.TileWidth - 1, Player.Position.Y);
                 Player.Velocity = new Vector2(0, Player.Velocity.Y);
             }
         }

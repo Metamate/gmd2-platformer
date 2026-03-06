@@ -1,5 +1,4 @@
-﻿using System;
-using GMDCore;
+﻿using GMDCore;
 using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
