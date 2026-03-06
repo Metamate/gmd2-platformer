@@ -7,11 +7,11 @@ namespace Platformer.States.Entity;
 
 public abstract class PlayerStateBase
 {
-    protected Player Player { get; }
-
     protected const float MoveSpeed = 100f;
     protected const float Gravity = 1000f;
     protected const int GroundInset = 4;
+
+    protected Player Player { get; }
 
     protected PlayerStateBase(Player player)
     {
@@ -62,83 +62,92 @@ public abstract class PlayerStateBase
 
         float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        // Move X
+        // 1. Resolve X (Move then Snap)
         Player.Position = new Vector2(Player.Position.X + Player.Velocity.X * dt, Player.Position.Y);
-        CheckLevelCollisionX();
+        ResolveXCollisions();
 
-        // Move Y
+        // 2. Resolve Y (Move then Snap)
         Player.Position = new Vector2(Player.Position.X, Player.Position.Y + Player.Velocity.Y * dt);
-        CheckLevelCollisionY();
+        ResolveYCollisions();
 
         Player.Sprite?.Update(gameTime);
     }
 
-    private void CheckLevelCollisionX()
+    private void ResolveXCollisions()
     {
         Rectangle hitbox = Player.Hitbox;
         float tilemapWidth = Player.Tilemap.Columns * Player.Tilemap.TileWidth;
 
-        // 1. World Boundary Checks
-        if (Player.Position.X < 0)
-        {
-            Player.Position = new Vector2(0, Player.Position.Y);
-            Player.Velocity = new Vector2(0, Player.Velocity.Y);
-            return;
-        }
-        else if (Player.Position.X + Player.Sprite.Width > tilemapWidth)
-        {
-            Player.Position = new Vector2(tilemapWidth - Player.Sprite.Width, Player.Position.Y);
-            Player.Velocity = new Vector2(0, Player.Velocity.Y);
-            return;
-        }
-
-        // 2. Tilemap Collision Checks
         if (Player.Velocity.X > 0) // Moving Right
         {
-            if (Player.Tilemap.IsSolidAt(hitbox.Right, hitbox.Top + 2) ||
-                Player.Tilemap.IsSolidAt(hitbox.Right, hitbox.Bottom - 2))
-            {
-                int tileX = (int)(hitbox.Right / Player.Tilemap.TileWidth);
-                Player.Position = new Vector2(tileX * Player.Tilemap.TileWidth - (Player.Sprite.Width - 1), Player.Position.Y);
-                Player.Velocity = new Vector2(0, Player.Velocity.Y);
-            }
+            if (hitbox.Right > tilemapWidth) { SnapToRight(tilemapWidth); return; }
+            if (CheckSideCollision(hitbox.Right)) SnapToRight(Player.Tilemap.GetTileLeft(hitbox.Right));
         }
         else if (Player.Velocity.X < 0) // Moving Left
         {
-            if (Player.Tilemap.IsSolidAt(hitbox.Left, hitbox.Top + 2) ||
-                Player.Tilemap.IsSolidAt(hitbox.Left, hitbox.Bottom - 2))
+            if (hitbox.Left < 0) { SnapToLeft(0); return; }
+            if (CheckSideCollision(hitbox.Left)) SnapToLeft(Player.Tilemap.GetTileRight(hitbox.Left));
+        }
+    }
+
+    private void ResolveYCollisions()
+    {
+        Rectangle hitbox = Player.Hitbox;
+
+        if (Player.Velocity.Y > 0) // Falling
+        {
+            if (CheckVerticalCollision(hitbox.Bottom))
             {
-                int tileX = (int)(hitbox.Left / Player.Tilemap.TileWidth);
-                Player.Position = new Vector2((tileX + 1) * Player.Tilemap.TileWidth - 1, Player.Position.Y);
-                Player.Velocity = new Vector2(0, Player.Velocity.Y);
+                SnapToBottom(Player.Tilemap.GetTileTop(hitbox.Bottom));
+            }
+        }
+        else if (Player.Velocity.Y < 0) // Jumping
+        {
+            if (CheckVerticalCollision(hitbox.Top))
+            {
+                SnapToTop(Player.Tilemap.GetTileBottom(hitbox.Top));
             }
         }
     }
 
-    private void CheckLevelCollisionY()
+    private bool CheckSideCollision(float x)
     {
         Rectangle hitbox = Player.Hitbox;
+        // Check near the top and bottom of the side-edge
+        return Player.Tilemap.IsSolidAt(x, hitbox.Top + 2) ||
+               Player.Tilemap.IsSolidAt(x, hitbox.Bottom - 2);
+    }
 
-        if (Player.Velocity.Y > 0) // Moving Down (Falling)
-        {
-            if (Player.Tilemap.IsSolidAt(hitbox.Left + GroundInset, hitbox.Bottom) ||
-                Player.Tilemap.IsSolidAt(hitbox.Right - GroundInset, hitbox.Bottom))
-            {
-                int tileY = (int)(hitbox.Bottom / Player.Tilemap.TileHeight);
-                Player.Position = new Vector2(Player.Position.X, tileY * Player.Tilemap.TileHeight - Player.Sprite.Height);
-                Player.Velocity = new Vector2(Player.Velocity.X, 0);
-            }
-        }
-        else if (Player.Velocity.Y < 0) // Moving Up (Jumping)
-        {
-            if (Player.Tilemap.IsSolidAt(hitbox.Left + GroundInset, hitbox.Top) ||
-                Player.Tilemap.IsSolidAt(hitbox.Right - GroundInset, hitbox.Top))
-            {
-                int tileY = (int)(hitbox.Top / Player.Tilemap.TileHeight);
-                Player.Position = new Vector2(Player.Position.X, (tileY + 1) * Player.Tilemap.TileHeight);
-                Player.Velocity = new Vector2(Player.Velocity.X, 0);
-            }
-        }
+    private bool CheckVerticalCollision(float y)
+    {
+        Rectangle hitbox = Player.Hitbox;
+        // Check near the left and right of the top/bottom edge using GroundInset
+        return Player.Tilemap.IsSolidAt(hitbox.Left + GroundInset, y) ||
+               Player.Tilemap.IsSolidAt(hitbox.Right - GroundInset, y);
+    }
+
+    private void SnapToRight(float x)
+    {
+        Player.Position = new Vector2(x - Player.Sprite.Width + Player.HitboxInset, Player.Position.Y);
+        Player.Velocity = new Vector2(0, Player.Velocity.Y);
+    }
+
+    private void SnapToLeft(float x)
+    {
+        Player.Position = new Vector2(x - Player.HitboxInset, Player.Position.Y);
+        Player.Velocity = new Vector2(0, Player.Velocity.Y);
+    }
+
+    private void SnapToBottom(float y)
+    {
+        Player.Position = new Vector2(Player.Position.X, y - Player.Sprite.Height);
+        Player.Velocity = new Vector2(Player.Velocity.X, 0);
+    }
+
+    private void SnapToTop(float y)
+    {
+        Player.Position = new Vector2(Player.Position.X, y);
+        Player.Velocity = new Vector2(Player.Velocity.X, 0);
     }
 
     protected bool IsOnGround()

@@ -7,6 +7,8 @@ namespace Platformer
 {
     public class Player
     {
+        public const int HitboxInset = 1;
+
         private TextureAtlas _atlas;
         private PlayerStateBase _currentState;
 
@@ -17,9 +19,9 @@ namespace Platformer
         public Vector2 Velocity { get; set; }
 
         public Rectangle Hitbox => new(
-            (int)Position.X + 1,
+            (int)Position.X + HitboxInset,
             (int)Position.Y,
-            (int)Sprite.Width - 2,
+            (int)Sprite.Width - (HitboxInset * 2),
             (int)Sprite.Height
         );
 

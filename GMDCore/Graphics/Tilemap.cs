@@ -71,6 +71,11 @@ public class Tilemap
         return GetTileAt(x, y)?.IsSolid ?? false;
     }
 
+    public float GetTileLeft(float x) => (int)(x / TileWidth) * TileWidth;
+    public float GetTileRight(float x) => ((int)(x / TileWidth) + 1) * TileWidth;
+    public float GetTileTop(float y) => (int)(y / TileHeight) * TileHeight;
+    public float GetTileBottom(float y) => ((int)(y / TileHeight) + 1) * TileHeight;
+
     private Tile? GetTileAt(float x, float y)
     {
         int column = (int)(x / TileWidth);
