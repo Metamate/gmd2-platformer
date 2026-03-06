@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Platformer.Input;
 
 namespace Platformer.States.Entity;
 
@@ -19,6 +20,10 @@ public class PlayerFallState(Player player) : PlayerStateBase(player)
                 Player.ChangeState(new PlayerIdleState(Player));
             else
                 Player.ChangeState(new PlayerWalkState(Player));
+        }
+        else if (Player.CoyoteTimer > 0 && GameController.Jump)
+        {
+            Player.ChangeState(new PlayerJumpState(Player));
         }
     }
 }

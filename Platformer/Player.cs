@@ -7,7 +7,7 @@ namespace Platformer
 {
     public class Player
     {
-        public const int HitboxInset = 1;
+        public const int HitboxInset = 2;
 
         private TextureAtlas _atlas;
         private PlayerStateBase _currentState;
@@ -17,6 +17,7 @@ namespace Platformer
         public AnimatedSprite Sprite { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
+        public float CoyoteTimer { get; set; }
 
         public Rectangle Hitbox => new(
             (int)Position.X + HitboxInset,
