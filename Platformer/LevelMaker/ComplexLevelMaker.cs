@@ -1,0 +1,45 @@
+using System;
+using GMDCore.Graphics;
+using Microsoft.Xna.Framework.Content;
+
+namespace Platformer.LevelMaker;
+
+public class ComplexLevelMaker(ContentManager content) : LevelMakerBase(content)
+{
+    public override Tilemap Generate(int columns, int rows)
+    {
+        Tilemap = new(Tilesets[Random.Shared.Next(Tilesets.Count)], columns, rows, Toppersets[Random.Shared.Next(Toppersets.Count)]);
+
+        int groundHeight = 3;
+        int pillarHeight = 2;
+        float pitChance = 0.15f;
+        float pillarChance = 0.15f;
+
+        for (int x = 0; x < columns; x++)
+        {
+            // Always ensure player spawns on a safe platform
+            if (x <= 4)
+            {
+                CreateGroundColumn(x, groundHeight);
+                continue;
+            }
+
+            // Chance for a pit
+            if (Random.Shared.NextDouble() < pitChance)
+            {
+                continue;
+            }
+
+            // If not a pit, determine ground height (with potential pillar)
+            int currentHeight = groundHeight;
+            if (Random.Shared.NextDouble() < pillarChance)
+            {
+                currentHeight += pillarHeight;
+            }
+
+            CreateGroundColumn(x, currentHeight);
+        }
+
+        return Tilemap;
+    }
+}

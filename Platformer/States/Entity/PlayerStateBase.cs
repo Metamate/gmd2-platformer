@@ -59,26 +59,78 @@ public abstract class PlayerStateBase
         HandleHorizontalMovement(gameTime);
         ApplyGravity(gameTime);
 
-        Player.Position += Player.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        // Temporary Floor Clamp (until we have real collision)
-        float groundY = GetGroundY();
-        if (Player.Position.Y >= groundY)
-        {
-            Player.Position = new Vector2(Player.Position.X, groundY);
-            Player.Velocity = new Vector2(Player.Velocity.X, 0);
-        }
+        // Move X
+        Player.Position = new Vector2(Player.Position.X + Player.Velocity.X * dt, Player.Position.Y);
+        CheckLevelCollisionX();
+
+        // Move Y
+        Player.Position = new Vector2(Player.Position.X, Player.Position.Y + Player.Velocity.Y * dt);
+        CheckLevelCollisionY();
 
         Player.Sprite?.Update(gameTime);
     }
 
-    protected float GetGroundY()
+    private void CheckLevelCollisionX()
     {
-        Vector2 groundTilePos = Player.Tilemap.TileToPoint(0, Player.Tilemap.Rows - 3);
-        return groundTilePos.Y - (Player.Sprite?.Height ?? 0);
+        Rectangle hitbox = Player.Hitbox;
+        
+        if (Player.Velocity.X > 0) // Moving Right
+        {
+            if (Player.Tilemap.IsSolidAt(hitbox.Right, hitbox.Top + 2) || 
+                Player.Tilemap.IsSolidAt(hitbox.Right, hitbox.Bottom - 2))
+            {
+                int tileX = (int)(hitbox.Right / Player.Tilemap.TileWidth);
+                Player.Position = new Vector2(tileX * Player.Tilemap.TileWidth - Player.Sprite.Width, Player.Position.Y);
+                Player.Velocity = new Vector2(0, Player.Velocity.Y);
+            }
+        }
+        else if (Player.Velocity.X < 0) // Moving Left
+        {
+            if (Player.Tilemap.IsSolidAt(hitbox.Left, hitbox.Top + 2) || 
+                Player.Tilemap.IsSolidAt(hitbox.Left, hitbox.Bottom - 2))
+            {
+                int tileX = (int)(hitbox.Left / Player.Tilemap.TileWidth);
+                Player.Position = new Vector2((tileX + 1) * Player.Tilemap.TileWidth, Player.Position.Y);
+                Player.Velocity = new Vector2(0, Player.Velocity.Y);
+            }
+        }
+    }
+
+    private void CheckLevelCollisionY()
+    {
+        Rectangle hitbox = Player.Hitbox;
+
+        if (Player.Velocity.Y > 0) // Moving Down (Falling)
+        {
+            if (Player.Tilemap.IsSolidAt(hitbox.Left, hitbox.Bottom) || 
+                Player.Tilemap.IsSolidAt(hitbox.Right, hitbox.Bottom))
+            {
+                int tileY = (int)(hitbox.Bottom / Player.Tilemap.TileHeight);
+                Player.Position = new Vector2(Player.Position.X, tileY * Player.Tilemap.TileHeight - Player.Sprite.Height);
+                Player.Velocity = new Vector2(Player.Velocity.X, 0);
+            }
+        }
+        else if (Player.Velocity.Y < 0) // Moving Up (Jumping)
+        {
+            if (Player.Tilemap.IsSolidAt(hitbox.Left, hitbox.Top) || 
+                Player.Tilemap.IsSolidAt(hitbox.Right, hitbox.Top))
+            {
+                int tileY = (int)(hitbox.Top / Player.Tilemap.TileHeight);
+                Player.Position = new Vector2(Player.Position.X, (tileY + 1) * Player.Tilemap.TileHeight);
+                Player.Velocity = new Vector2(Player.Velocity.X, 0);
+            }
+        }
     }
  
-    protected bool IsOnGround() => Player.Position.Y >= GetGroundY() - 1f;
+    protected bool IsOnGround()
+    {
+        Rectangle hitbox = Player.Hitbox;
+        // Check 1 pixel below the feet at the corners of the hitbox
+        return Player.Tilemap.IsSolidAt(hitbox.Left, hitbox.Bottom + 1) || 
+               Player.Tilemap.IsSolidAt(hitbox.Right, hitbox.Bottom + 1);
+    }
 
     public virtual void Draw(SpriteBatch spriteBatch)
     {

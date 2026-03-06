@@ -73,6 +73,19 @@ public class Tilemap
         return new Vector2(column * TileWidth, row * TileHeight);
     }
 
+    public bool IsSolidAt(float x, float y)
+    {
+        int column = (int)(x / TileWidth);
+        int row = (int)(y / TileHeight);
+
+        if (column < 0 || column >= Columns || row < 0 || row >= Rows)
+        {
+            return false;
+        }
+
+        return GetTile(column, row).IsSolid;
+    }
+
     public void Draw(SpriteBatch spriteBatch)
     {
         for (int i = 0; i < Count; i++)

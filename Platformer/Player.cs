@@ -19,6 +19,13 @@ namespace Platformer
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
 
+        public Rectangle Hitbox => new Rectangle(
+            (int)Position.X + 1,
+            (int)Position.Y,
+            (int)Sprite.Width - 2,
+            (int)Sprite.Height
+        );
+
         public Player(TextureAtlas textureAtlas, Tilemap tilemap)
         {
             _atlas = textureAtlas;

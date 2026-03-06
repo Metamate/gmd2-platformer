@@ -19,6 +19,7 @@ public abstract class LevelMakerBase
     public List<Tileset> Tilesets { get; } = [];
     public List<Tileset> Toppersets { get; } = [];
     public List<TextureRegion> Backgrounds { get; } = [];
+    protected Tilemap Tilemap { get; set; }
 
     private ContentManager _content;
 
@@ -28,6 +29,28 @@ public abstract class LevelMakerBase
         Tilesets = CreateTilesetsFromFile("images/tiles", TilesetsColumns, TilesetsRows, TileSize);
         Toppersets = CreateTilesetsFromFile("images/tile_tops", ToppersetsColumns, ToppersetsRows, TileSize);
         Backgrounds = GetBackgroundsFromFile("images/backgrounds", 1, 3);
+    }
+
+    public abstract Tilemap Generate(int columns, int rows);
+
+    protected void CreateGroundColumn(int x, int groundHeight)
+    {
+        for (int y = 0; y < Tilemap.Rows; y++)
+        {
+            if (y >= Tilemap.Rows - groundHeight)
+            {
+                if (y == Tilemap.Rows - groundHeight)
+                {
+                    // Top of ground with topper
+                    Tilemap.SetTile(x, y, new Tile(0, 0, true));
+                }
+                else
+                {
+                    // Solid underground tile
+                    Tilemap.SetTile(x, y, new Tile(0, true));
+                }
+            }
+        }
     }
 
     private List<Tileset> CreateTilesetsFromFile(string file, int columns, int rows, int tileSize)
@@ -89,6 +112,4 @@ public abstract class LevelMakerBase
     {
         return Backgrounds[Random.Shared.Next(Backgrounds.Count)];
     }
-
-    public abstract Tilemap Generate(int columns, int rows);
 }

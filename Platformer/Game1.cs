@@ -27,7 +27,7 @@ public class Game1 : Core
     protected override void Initialize()
     {
         base.Initialize();
-        _levelMaker = new FlatLevelMaker(Content);
+        _levelMaker = new ComplexLevelMaker(Content);
         Tilemap = _levelMaker.Generate(30, 9);
         Background = _levelMaker.GetRandomBackground();
         _inputHandler = new InputHandler(_levelMaker, this);
@@ -63,10 +63,10 @@ public class Game1 : Core
         float bgOffset = -(_camera.Position.X * parallaxFactor) % Background.Width;
 
         SpriteBatch.Begin(transformMatrix: ScreenScaleMatrix, samplerState: SamplerState.PointClamp);
-        
+
         Background.Draw(SpriteBatch, new Vector2(bgOffset, 0), Color.White);
         Background.Draw(SpriteBatch, new Vector2(bgOffset + Background.Width, 0), Color.White);
-        
+
         SpriteBatch.End();
 
         // Draw World
