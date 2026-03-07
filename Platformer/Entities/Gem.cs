@@ -41,11 +41,12 @@ public class Gem(TextureRegion region, Vector2 position, Vector2 velocity) : IEn
 
     public bool Collides(IEntity other)
     {
-        if (Active && other is Player)
+        if (Active && other is Player player)
         {
-            if (Bounds.Intersects(other.Bounds))
+            if (Bounds.Intersects(player.Bounds))
             {
                 Active = false; // Gem is collected
+                player.Score++;
                 return true;
             }
         }

@@ -69,9 +69,10 @@ public class MysteryBox(GameLevel level, TextureRegion region, Vector2 position,
         if (gems != null && gems.Count > 0)
         {
             var gemRegion = gems[Random.Shared.Next(gems.Count)];
-            // Spawn gem above the box with an upward pop (initial velocity -300f)
+            // Spawn gem above the box with an upward pop and slight horizontal variance
             Vector2 gemPos = new(Position.X, Position.Y - gemRegion.Height);
-            Level.AddEntity(new Gem(gemRegion, gemPos, new Vector2(0, -300f)));
+            float randomX = (float)(Random.Shared.NextDouble() * 100 - 50); // -50 to 50 spread
+            Level.AddEntity(new Gem(gemRegion, gemPos, new Vector2(randomX, -200f)));
         }
     }
 }

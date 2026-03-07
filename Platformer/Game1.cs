@@ -8,7 +8,6 @@ namespace Platformer;
 public class Game1 : Core
 {
     private GameStateBase _currentState;
-
     public new Matrix ScreenScaleMatrix => base.ScreenScaleMatrix;
 
     public Game1() : base("Platformer", 1280, 720, GameSettings.VirtualWidth, GameSettings.VirtualHeight)

@@ -2,11 +2,12 @@ using GMDCore;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Platformer.Input;
 using Platformer.LevelMaker;
 
 namespace Platformer.States.GameStates;
 
-public class StartState : GameStateBase
+public class StartState(Game1 game) : GameStateBase(game)
 {
     private SpriteFont _font;
     private string _title = "VIA Mario Bros";
@@ -15,10 +16,6 @@ public class StartState : GameStateBase
     private Vector2 _subtitlePosition;
     private float _subtitleScale = 0.5f;
     private GameLevel _backgroundLevel;
-
-    public StartState(Game1 game) : base(game)
-    {
-    }
 
     public override void Enter()
     {
@@ -39,13 +36,9 @@ public class StartState : GameStateBase
         _backgroundLevel = levelMaker.Generate(30, 9);
     }
 
-    public override void Exit()
-    {
-    }
-
     public override void Update(GameTime gameTime)
     {
-        if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Enter))
+        if (GameController.Start)
         {
             Game.SetState(new PlayState(Game));
         }

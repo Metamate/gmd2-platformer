@@ -31,9 +31,13 @@ public class SnailChaseState(Snail snail) : SnailStateBase(snail)
             return;
         }
 
-        int direction = dx > 0 ? 1 : -1;
-        Snail.Velocity = new Vector2(direction * ChaseSpeed, Snail.Velocity.Y);
-        Snail.Sprite.Effects = direction > 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+        // Only update direction if outside a small "dead-zone" to prevent flickering
+        if (distance > 5f)
+        {
+            int direction = dx > 0 ? 1 : -1;
+            Snail.Velocity = new Vector2(direction * ChaseSpeed, Snail.Velocity.Y);
+            Snail.Sprite.Effects = direction > 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+        }
 
         base.Update(gameTime);
     }

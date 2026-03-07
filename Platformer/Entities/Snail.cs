@@ -64,7 +64,12 @@ public class Snail : IEntity
             if (player.State is PlayerFallState && player.Bounds.Bottom <= Bounds.Top + 8)
             {
                 Active = false;
+                player.Score++;
                 return false; // No physical collision if it's a kill
+            }
+            else
+            {
+                player.Active = false;
             }
         }
 

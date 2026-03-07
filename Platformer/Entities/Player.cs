@@ -18,6 +18,7 @@ public class Player : IEntity
     public Vector2 Position { get; set; }
     public Vector2 Velocity { get; set; }
     public float CoyoteTimer { get; set; }
+    public int Score { get; set; }
 
     public Rectangle Bounds => new(
         (int)Position.X + HitboxInset,
