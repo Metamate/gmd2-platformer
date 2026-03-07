@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Platformer.Entities;
 
 namespace Platformer.LevelMaker;
 
@@ -17,6 +18,7 @@ public class ComplexLevelMaker(ContentManager content) : LevelMakerBase(content)
         float pitChance = 0.15f;
         float pillarChance = 0.15f;
         float bushChance = 0.3f;
+        float boxChance = 0.1f;
 
         for (int x = 0; x < columns; x++)
         {
@@ -47,7 +49,15 @@ public class ComplexLevelMaker(ContentManager content) : LevelMakerBase(content)
             {
                 // Target the tile space directly above the ground column
                 Vector2 bushPosition = Tilemap.TileToPoint(x, (rows - currentHeight) - 1);
-                level.AddEntity(new Entities.Bush(GetRandomBushAndCactus(), bushPosition));
+                level.AddEntity(new Bush(GetRandomBush(), bushPosition));
+            }
+
+            // Spawn floating mystery boxes
+            if (Random.Shared.NextDouble() < boxChance)
+            {
+                int boxHeight = 4; // 4 tiles above the ground surface
+                Vector2 boxPosition = Tilemap.TileToPoint(x, (rows - currentHeight) - boxHeight);
+                level.AddEntity(new MysteryBox(GetRandomMysteryBox(), boxPosition));
             }
         }
 

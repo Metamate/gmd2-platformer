@@ -21,7 +21,7 @@ public class Player : IEntity
     public Vector2 Velocity { get; set; }
     public float CoyoteTimer { get; set; }
 
-    public Rectangle Hitbox => new(
+    public Rectangle Bounds => new(
         (int)Position.X + HitboxInset,
         (int)Position.Y,
         (int)Sprite.Width - (HitboxInset * 2),
@@ -30,7 +30,6 @@ public class Player : IEntity
 
     public bool Collidable { get; set; } = true;
     public bool Active { get; set; } = true;
-    public Rectangle Bounds => Hitbox;
 
     public Player(TextureAtlas textureAtlas, GameLevel level)
     {
@@ -56,5 +55,10 @@ public class Player : IEntity
     public void Draw(SpriteBatch spriteBatch)
     {
         _currentState.Draw(spriteBatch);
+    }
+
+    public bool Collides(IEntity other)
+    {
+        return Collidable && other.Collidable && Bounds.Intersects(other.Bounds);
     }
 }

@@ -84,7 +84,7 @@ public abstract class PlayerStateBase
 
     private void ResolveXCollisions()
     {
-        Rectangle hitbox = Player.Hitbox;
+        Rectangle hitbox = Player.Bounds;
         float tilemapWidth = Player.Tilemap.Columns * Player.Tilemap.TileWidth;
 
         if (Player.Velocity.X > 0) // Moving Right
@@ -101,7 +101,7 @@ public abstract class PlayerStateBase
 
     private void ResolveYCollisions()
     {
-        Rectangle hitbox = Player.Hitbox;
+        Rectangle hitbox = Player.Bounds;
 
         if (Player.Velocity.Y > 0) // Falling
         {
@@ -122,15 +122,15 @@ public abstract class PlayerStateBase
     private bool CheckSideCollision(float x)
     {
         // Check the left/right edges at the top and bottom (+/- inset)
-        return Player.Tilemap.IsSolidAt(x, Player.Hitbox.Top + CollisionInset) ||
-               Player.Tilemap.IsSolidAt(x, Player.Hitbox.Bottom - CollisionInset);
+        return Player.Tilemap.IsSolidAt(x, Player.Bounds.Top + CollisionInset) ||
+               Player.Tilemap.IsSolidAt(x, Player.Bounds.Bottom - CollisionInset);
     }
 
     private bool CheckVerticalCollision(float y)
     {
         // Check the top/bottom edges at the left and right (+/- inset)
-        return Player.Tilemap.IsSolidAt(Player.Hitbox.Left + CollisionInset, y) ||
-               Player.Tilemap.IsSolidAt(Player.Hitbox.Right - CollisionInset, y);
+        return Player.Tilemap.IsSolidAt(Player.Bounds.Left + CollisionInset, y) ||
+               Player.Tilemap.IsSolidAt(Player.Bounds.Right - CollisionInset, y);
     }
 
     private void SnapToRight(float x)
@@ -159,7 +159,7 @@ public abstract class PlayerStateBase
 
     protected bool IsOnGround()
     {
-        Rectangle hitbox = Player.Hitbox;
+        Rectangle hitbox = Player.Bounds;
         return Player.Tilemap.IsSolidAt(hitbox.Left + CollisionInset, hitbox.Bottom + 1) ||
                Player.Tilemap.IsSolidAt(hitbox.Right - CollisionInset, hitbox.Bottom + 1);
     }

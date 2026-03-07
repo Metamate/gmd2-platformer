@@ -12,4 +12,5 @@ public interface IEntity
 
     void Update(GameTime gameTime);
     void Draw(SpriteBatch spriteBatch);
+    bool Collides(IEntity other);
 }

@@ -20,9 +20,9 @@ public abstract class LevelMakerBase
     public List<Tileset> Tilesets { get; } = [];
     public List<Tileset> Toppersets { get; } = [];
     public List<TextureRegion> Backgrounds { get; } = [];
-    public List<TextureRegion> BushesAndCacti { get; } = [];
+    public List<TextureRegion> Bushes { get; } = [];
     public List<TextureRegion> Gems { get; } = [];
-    public List<TextureRegion> JumpBlocks { get; } = [];
+    public List<TextureRegion> MysteryBoxes { get; } = [];
     protected Tilemap Tilemap { get; set; }
 
     public LevelMakerBase(ContentManager content)
@@ -31,10 +31,10 @@ public abstract class LevelMakerBase
         Tilesets = CreateTilesetsFromFile("images/tiles", TilesetsColumns, TilesetsRows, TileSize);
         Toppersets = CreateTilesetsFromFile("images/tile_tops", ToppersetsColumns, ToppersetsRows, TileSize);
         Backgrounds = GetTextureRegionsFromFile("images/backgrounds", 1, 3);
-        BushesAndCacti = GetTextureRegionsFromFile("images/bushes_and_cacti", 7, 5)
+        Bushes = GetTextureRegionsFromFile("images/bushes_and_cacti", 7, 5)
             .Where((_, i) => new[] { 0, 1, 4, 5, 6 }.Contains(i % 7)).ToList(); // we only want graphics 0, 1, 4, 5, 6 per row
         Gems = GetTextureRegionsFromFile("images/gems", 4, 2);
-        JumpBlocks = GetTextureRegionsFromFile("images/jump_blocks", 5, 5);
+        MysteryBoxes = GetTextureRegionsFromFile("images/jump_blocks", 6, 5);
     }
 
     public abstract GameLevel Generate(int columns, int rows);
@@ -42,9 +42,9 @@ public abstract class LevelMakerBase
     public Tileset GetRandomTileset() => GetRandom(Tilesets);
     public Tileset GetRandomTopperset() => GetRandom(Toppersets);
     public TextureRegion GetRandomBackground() => GetRandom(Backgrounds);
-    public TextureRegion GetRandomBushAndCactus() => GetRandom(BushesAndCacti);
+    public TextureRegion GetRandomBush() => GetRandom(Bushes);
     public TextureRegion GetRandomGem() => GetRandom(Gems);
-    public TextureRegion GetRandomJumpBlock() => GetRandom(JumpBlocks);
+    public TextureRegion GetRandomMysteryBox() => GetRandom(MysteryBoxes);
 
     public List<TextureRegion> GetTextureRegionsFromFile(string file, int columns, int rows)
     {

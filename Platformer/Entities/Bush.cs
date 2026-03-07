@@ -21,4 +21,9 @@ public class Bush(TextureRegion region, Vector2 position) : IEntity
     {
         Region.Draw(spriteBatch, Position, Color.White);
     }
+
+    public bool Collides(IEntity other)
+    {
+        return Collidable && other.Collidable && Bounds.Intersects(other.Bounds);
+    }
 }

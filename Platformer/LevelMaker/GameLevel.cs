@@ -29,7 +29,12 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
 
         foreach (var bush in Entities.OfType<Bush>())
         {
-            bush.Region = maker.GetRandomBushAndCactus();
+            bush.Region = maker.GetRandomBush();
+        }
+
+        foreach (var box in Entities.OfType<MysteryBox>())
+        {
+            box.Region = maker.GetRandomMysteryBox();
         }
     }
 
@@ -56,8 +61,8 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
         float clampedX = MathHelper.Clamp(playerCenterX, GameSettings.VirtualWidth / 2f, worldWidth - GameSettings.VirtualWidth / 2f);
 
         Camera.Follow(
-            new Vector2(clampedX, GameSettings.VirtualHeight / 2f), 
-            GameSettings.VirtualWidth, 
+            new Vector2(clampedX, GameSettings.VirtualHeight / 2f),
+            GameSettings.VirtualWidth,
             GameSettings.VirtualHeight
         );
     }
