@@ -12,7 +12,7 @@ public class PlayState : GameState
     private InputHandler _inputHandler;
     private LevelMakerBase _levelMaker;
     private Player _player;
-    public GameLevel CurrentLevel { get; private set; }
+    private GameLevel _currentLevel;
 
     public PlayState(Game1 game) : base(game)
     {
@@ -21,13 +21,13 @@ public class PlayState : GameState
     public override void Enter()
     {
         _levelMaker = new ComplexLevelMaker(Game.Content);
-        CurrentLevel = _levelMaker.Generate(30, 9);
+        _currentLevel = _levelMaker.Generate(30, 9);
 
         TextureAtlas alienAtlas = TextureAtlas.FromFile(Game.Content, "images/alien.xml");
-        _player = new Player(alienAtlas, CurrentLevel);
-        CurrentLevel.Player = _player;
+        _player = new Player(alienAtlas, _currentLevel);
+        _currentLevel.Player = _player;
 
-        _inputHandler = new InputHandler(_levelMaker, CurrentLevel);
+        _inputHandler = new InputHandler(_levelMaker, _currentLevel);
     }
 
     public override void Exit()
@@ -37,11 +37,11 @@ public class PlayState : GameState
     public override void Update(GameTime gameTime)
     {
         _inputHandler.HandleInput();
-        CurrentLevel.Update(gameTime);
+        _currentLevel.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        CurrentLevel.Draw(spriteBatch, Game.ScreenScaleMatrix);
+        _currentLevel.Draw(spriteBatch, Game.ScreenScaleMatrix);
     }
 }
