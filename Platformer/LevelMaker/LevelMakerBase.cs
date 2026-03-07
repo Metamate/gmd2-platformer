@@ -26,7 +26,6 @@ public abstract class LevelMakerBase
     {
         _content = content;
         Tilesets = CreateTilesetsFromFile("images/tiles", TilesetsColumns, TilesetsRows, TileSize);
-        // Assuming Toppersets are also Tilesets based on previous code
         Toppersets = CreateTilesetsFromFile("images/tile_tops", ToppersetsColumns, ToppersetsRows, TileSize);
         Backgrounds = GetBackgroundsFromFile("images/backgrounds", 1, 3);
     }

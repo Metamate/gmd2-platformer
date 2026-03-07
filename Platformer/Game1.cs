@@ -25,12 +25,13 @@ public class Game1 : Core
         base.Initialize();
         _levelMaker = new ComplexLevelMaker(Content);
         CurrentLevel = _levelMaker.Generate(30, 9);
-        _inputHandler = new InputHandler(_levelMaker, CurrentLevel);
 
         TextureAtlas alienAtlas = TextureAtlas.FromFile(Content, "images/alien.xml");
-        _player = new Player(alienAtlas, CurrentLevel.Tilemap);
+        _player = new Player(alienAtlas, CurrentLevel);
         CurrentLevel.AddEntity(_player);
         CurrentLevel.Player = _player;
+
+        _inputHandler = new InputHandler(_levelMaker, CurrentLevel);
     }
 
     protected override void Update(GameTime gameTime)

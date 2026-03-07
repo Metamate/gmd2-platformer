@@ -2,6 +2,7 @@ using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Platformer.States.Entity;
+using Platformer.LevelMaker;
 
 namespace Platformer.Entities;
 
@@ -13,7 +14,8 @@ public class Player : IEntity
     private PlayerStateBase _currentState;
 
     public TextureAtlas Atlas => _atlas;
-    public Tilemap Tilemap { get; }
+    public GameLevel Level { get; }
+    public Tilemap Tilemap => Level.Tilemap;
     public AnimatedSprite Sprite { get; set; }
     public Vector2 Position { get; set; }
     public Vector2 Velocity { get; set; }
@@ -26,13 +28,13 @@ public class Player : IEntity
         (int)Sprite.Height
     );
 
-    public Player(TextureAtlas textureAtlas, Tilemap tilemap)
+    public Player(TextureAtlas textureAtlas, GameLevel level)
     {
         _atlas = textureAtlas;
-        Tilemap = tilemap;
+        Level = level;
         ChangeState(new PlayerIdleState(this));
 
-        Position = tilemap.TileToPoint(3, 0);
+        Position = Tilemap.TileToPoint(3, 0);
     }
 
     public void ChangeState(PlayerStateBase newState)
