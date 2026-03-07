@@ -3,17 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Platformer.States.Game;
 
-public abstract class GameState
+public abstract class GameState(Game1 game)
 {
-    protected Game1 Game { get; }
+    protected Game1 Game { get; } = game;
 
-    protected GameState(Game1 game)
-    {
-        Game = game;
-    }
-
-    public abstract void Enter();
-    public abstract void Exit();
+    public virtual void Enter() { }
+    public virtual void Exit() { }
     public abstract void Update(GameTime gameTime);
     public abstract void Draw(SpriteBatch spriteBatch);
 }

@@ -28,6 +28,8 @@ public class Player : IEntity
         (int)Sprite.Height
     );
 
+    public bool Collidable { get; set; } = true;
+
     public Player(TextureAtlas textureAtlas, GameLevel level)
     {
         _atlas = textureAtlas;
