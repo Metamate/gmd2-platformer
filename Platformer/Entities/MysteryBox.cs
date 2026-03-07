@@ -8,6 +8,7 @@ namespace Platformer.Entities;
 public class MysteryBox(TextureRegion region, Vector2 position) : IEntity
 {
     public bool Collidable { get; set; } = true;
+    public bool IsSolid => true;
     public bool Active { get; set; } = true;
     public Vector2 Position { get; set; } = position;
     public TextureRegion Region { get; set; } = region;

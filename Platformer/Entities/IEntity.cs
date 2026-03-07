@@ -8,6 +8,7 @@ public interface IEntity
     public Vector2 Position { get; set; }
     public Rectangle Bounds { get; }
     public bool Collidable { get; set; }
+    public bool IsSolid { get; }
     public bool Active { get; set; }
 
     void Update(GameTime gameTime);

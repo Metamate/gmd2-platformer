@@ -7,6 +7,7 @@ namespace Platformer.Entities;
 public class Bush(TextureRegion region, Vector2 position) : IEntity
 {
     public bool Collidable { get; set; } = false;
+    public bool IsSolid => false;
     public bool Active { get; set; } = true;
     public Vector2 Position { get; set; } = position;
     public TextureRegion Region { get; set; } = region;

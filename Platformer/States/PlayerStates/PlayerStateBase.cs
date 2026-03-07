@@ -108,8 +108,11 @@ public abstract class PlayerStateBase
             {
                 entity.Collides(Player);
 
-                if (Player.Velocity.X > 0) SnapToRight(entity.Bounds.Left);
-                else if (Player.Velocity.X < 0) SnapToLeft(entity.Bounds.Right);
+                if (entity.IsSolid)
+                {
+                    if (Player.Velocity.X > 0) SnapToRight(entity.Bounds.Left);
+                    else if (Player.Velocity.X < 0) SnapToLeft(entity.Bounds.Right);
+                }
             }
         }
     }
@@ -142,8 +145,11 @@ public abstract class PlayerStateBase
             {
                 entity.Collides(Player);
 
-                if (Player.Velocity.Y > 0) SnapToBottom(entity.Bounds.Top);
-                else if (Player.Velocity.Y < 0) SnapToTop(entity.Bounds.Bottom);
+                if (entity.IsSolid)
+                {
+                    if (Player.Velocity.Y > 0) SnapToBottom(entity.Bounds.Top);
+                    else if (Player.Velocity.Y < 0) SnapToTop(entity.Bounds.Bottom);
+                }
             }
         }
     }
@@ -198,7 +204,7 @@ public abstract class PlayerStateBase
 
         // Check solid Entities
         Rectangle sensor = ExpandDirectional(hitbox, 0, 1);
-        return Player.Level.Entities.Any(e => e.Active && e.Collidable && sensor.Intersects(e.Bounds));
+        return Player.Level.Entities.Any(e => e.Active && e.IsSolid && e.Collidable && sensor.Intersects(e.Bounds));
     }
 
     private Rectangle ExpandDirectional(Rectangle rect, float dx, float dy)

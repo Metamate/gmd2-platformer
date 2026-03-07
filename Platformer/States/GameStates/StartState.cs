@@ -6,7 +6,7 @@ using Platformer.LevelMaker;
 
 namespace Platformer.States.GameStates;
 
-public class StartState : GameState
+public class StartState : GameStateBase
 {
     private SpriteFont _font;
     private string _title = "VIA Mario Bros";

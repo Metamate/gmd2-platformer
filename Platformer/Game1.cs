@@ -7,7 +7,7 @@ namespace Platformer;
 
 public class Game1 : Core
 {
-    private GameState _currentState;
+    private GameStateBase _currentState;
 
     public new Matrix ScreenScaleMatrix => base.ScreenScaleMatrix;
 
@@ -21,7 +21,7 @@ public class Game1 : Core
         SetState(new StartState(this));
     }
 
-    public void SetState(GameState newState)
+    public void SetState(GameStateBase newState)
     {
         _currentState?.Exit();
         _currentState = newState;

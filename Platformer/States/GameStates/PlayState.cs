@@ -6,7 +6,7 @@ using Platformer.LevelMaker;
 
 namespace Platformer.States.GameStates;
 
-public class PlayState(Game1 game) : GameState(game)
+public class PlayState(Game1 game) : GameStateBase(game)
 {
     private InputHandler _inputHandler;
     private LevelMakerBase _levelMaker;
@@ -16,7 +16,7 @@ public class PlayState(Game1 game) : GameState(game)
     public override void Enter()
     {
         _levelMaker = new ComplexLevelMaker(Game.Content);
-        _currentLevel = _levelMaker.Generate(30, 9);
+        _currentLevel = _levelMaker.Generate(50, 9);
 
         TextureAtlas alienAtlas = TextureAtlas.FromFile(Game.Content, "images/alien.xml");
         _player = new Entities.Player(alienAtlas, _currentLevel);

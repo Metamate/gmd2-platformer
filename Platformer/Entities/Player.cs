@@ -27,6 +27,7 @@ public class Player : IEntity
     );
 
     public bool Collidable { get; set; } = true;
+    public bool IsSolid => true;
     public bool Active { get; set; } = true;
 
     public Player(TextureAtlas textureAtlas, GameLevel level)

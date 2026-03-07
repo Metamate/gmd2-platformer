@@ -24,6 +24,7 @@ public class Snail : IEntity
     );
 
     public bool Collidable { get; set; } = true;
+    public bool IsSolid => false;
     public bool Active { get; set; } = true;
 
     public Snail(TextureAtlas atlas, GameLevel level, Vector2 position)

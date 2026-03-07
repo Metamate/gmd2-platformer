@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Platformer.States.GameStates;
 
-public abstract class GameState(Game1 game)
+public abstract class GameStateBase(Game1 game)
 {
     protected Game1 Game { get; } = game;
 
