@@ -2,15 +2,15 @@ using Platformer.LevelMaker;
 
 namespace Platformer.Input;
 
-public class InputHandler(LevelMakerBase levelMaker, Game1 game1)
+public class InputHandler(LevelMakerBase levelMaker, GameLevel currentLevel)
 {
     public void HandleInput()
     {
         if (GameController.Randomize)
         {
-            game1.Tilemap.Tileset = levelMaker.GetRandomTileset();
-            game1.Tilemap.Topperset = levelMaker.GetRandomTopperset();
-            game1.Background = levelMaker.GetRandomBackground();
+            currentLevel.Tilemap.Tileset = levelMaker.GetRandomTileset();
+            currentLevel.Tilemap.Topperset = levelMaker.GetRandomTopperset();
+            currentLevel.Background = levelMaker.GetRandomBackground();
         }
     }
 }

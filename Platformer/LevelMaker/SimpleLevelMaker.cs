@@ -6,7 +6,7 @@ namespace Platformer.LevelMaker;
 
 public class SimpleLevelMaker(ContentManager content) : LevelMakerBase(content)
 {
-    public override Tilemap Generate(int columns, int rows)
+    public override GameLevel Generate(int columns, int rows)
     {
         Tilemap = new(Tilesets[Random.Shared.Next(Tilesets.Count)], columns, rows);
 
@@ -18,6 +18,6 @@ public class SimpleLevelMaker(ContentManager content) : LevelMakerBase(content)
             Tilemap.SetTile(x, y, new Tile(0, false));
         }
 
-        return Tilemap;
+        return new GameLevel(Tilemap, GetRandomBackground());
     }
 }

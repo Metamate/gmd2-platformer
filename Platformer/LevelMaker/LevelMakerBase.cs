@@ -26,11 +26,12 @@ public abstract class LevelMakerBase
     {
         _content = content;
         Tilesets = CreateTilesetsFromFile("images/tiles", TilesetsColumns, TilesetsRows, TileSize);
+        // Assuming Toppersets are also Tilesets based on previous code
         Toppersets = CreateTilesetsFromFile("images/tile_tops", ToppersetsColumns, ToppersetsRows, TileSize);
         Backgrounds = GetBackgroundsFromFile("images/backgrounds", 1, 3);
     }
 
-    public abstract Tilemap Generate(int columns, int rows);
+    public abstract GameLevel Generate(int columns, int rows);
 
     protected void CreateGroundColumn(int x, int groundHeight)
     {

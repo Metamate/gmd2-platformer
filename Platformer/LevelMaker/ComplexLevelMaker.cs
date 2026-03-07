@@ -1,12 +1,11 @@
 using System;
-using GMDCore.Graphics;
 using Microsoft.Xna.Framework.Content;
 
 namespace Platformer.LevelMaker;
 
 public class ComplexLevelMaker(ContentManager content) : LevelMakerBase(content)
 {
-    public override Tilemap Generate(int columns, int rows)
+    public override GameLevel Generate(int columns, int rows)
     {
         Tilemap = new(Tilesets[Random.Shared.Next(Tilesets.Count)], columns, rows, Toppersets[Random.Shared.Next(Toppersets.Count)]);
 
@@ -40,6 +39,6 @@ public class ComplexLevelMaker(ContentManager content) : LevelMakerBase(content)
             CreateGroundColumn(x, currentHeight);
         }
 
-        return Tilemap;
+        return new GameLevel(Tilemap, GetRandomBackground());
     }
 }
