@@ -1,11 +1,12 @@
 using System;
+using System.Linq;
 using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Platformer.Entities;
 using Platformer.Input;
 
-namespace Platformer.States.Entity;
+namespace Platformer.States.PlayerStates;
 
 public abstract class PlayerStateBase
 {
@@ -14,9 +15,9 @@ public abstract class PlayerStateBase
     protected const int CollisionInset = 1;
     protected const float CoyoteTime = 0.1f;
 
-    protected Player Player { get; }
+    protected Entities.Player Player { get; }
 
-    protected PlayerStateBase(Player player)
+    protected PlayerStateBase(Entities.Player player)
     {
         Player = player;
     }
@@ -97,6 +98,20 @@ public abstract class PlayerStateBase
             if (hitbox.Left < 0) { SnapToLeft(0); return; }
             if (CheckSideCollision(hitbox.Left)) SnapToLeft(Player.Tilemap.GetTileRight(hitbox.Left));
         }
+
+        // Entity Collisions
+        Rectangle sensor = ExpandDirectional(Player.Bounds, Player.Velocity.X, 0);
+
+        foreach (var entity in Player.Level.Entities.Where(e => e.Active && e.Collidable))
+        {
+            if (sensor.Intersects(entity.Bounds))
+            {
+                entity.Collides(Player);
+
+                if (Player.Velocity.X > 0) SnapToRight(entity.Bounds.Left);
+                else if (Player.Velocity.X < 0) SnapToLeft(entity.Bounds.Right);
+            }
+        }
     }
 
     private void ResolveYCollisions()
@@ -117,6 +132,20 @@ public abstract class PlayerStateBase
                 SnapToTop(Player.Tilemap.GetTileBottom(hitbox.Top));
             }
         }
+
+        // Entity Collisions
+        Rectangle sensor = ExpandDirectional(Player.Bounds, 0, Player.Velocity.Y);
+
+        foreach (var entity in Player.Level.Entities.Where(e => e.Active && e.Collidable))
+        {
+            if (sensor.Intersects(entity.Bounds))
+            {
+                entity.Collides(Player);
+
+                if (Player.Velocity.Y > 0) SnapToBottom(entity.Bounds.Top);
+                else if (Player.Velocity.Y < 0) SnapToTop(entity.Bounds.Bottom);
+            }
+        }
     }
 
     private bool CheckSideCollision(float x)
@@ -135,13 +164,13 @@ public abstract class PlayerStateBase
 
     private void SnapToRight(float x)
     {
-        Player.Position = new Vector2(x - Player.Sprite.Width + Player.HitboxInset, Player.Position.Y);
+        Player.Position = new Vector2(x - Player.Sprite.Width + Entities.Player.HitboxInset, Player.Position.Y);
         Player.Velocity = new Vector2(0, Player.Velocity.Y);
     }
 
     private void SnapToLeft(float x)
     {
-        Player.Position = new Vector2(x - Player.HitboxInset, Player.Position.Y);
+        Player.Position = new Vector2(x - Entities.Player.HitboxInset, Player.Position.Y);
         Player.Velocity = new Vector2(0, Player.Velocity.Y);
     }
 
@@ -160,8 +189,27 @@ public abstract class PlayerStateBase
     protected bool IsOnGround()
     {
         Rectangle hitbox = Player.Bounds;
-        return Player.Tilemap.IsSolidAt(hitbox.Left + CollisionInset, hitbox.Bottom + 1) ||
-               Player.Tilemap.IsSolidAt(hitbox.Right - CollisionInset, hitbox.Bottom + 1);
+
+        // Check Tilemap
+        bool onTile = Player.Tilemap.IsSolidAt(hitbox.Left + CollisionInset, hitbox.Bottom + 1) ||
+                      Player.Tilemap.IsSolidAt(hitbox.Right - CollisionInset, hitbox.Bottom + 1);
+
+        if (onTile) return true;
+
+        // Check solid Entities
+        Rectangle sensor = ExpandDirectional(hitbox, 0, 1);
+        return Player.Level.Entities.Any(e => e.Active && e.Collidable && sensor.Intersects(e.Bounds));
+    }
+
+    private Rectangle ExpandDirectional(Rectangle rect, float dx, float dy)
+    {
+        if (dx > 0) rect.Width += 1;
+        else if (dx < 0) { rect.X -= 1; rect.Width += 1; }
+
+        if (dy > 0) rect.Height += 1;
+        else if (dy < 0) { rect.Y -= 1; rect.Height += 1; }
+
+        return rect;
     }
 
     public virtual void Draw(SpriteBatch spriteBatch)

@@ -71,6 +71,9 @@
 /processorParam:TextureFormat=Color
 /build:images/creatures.png
 
+#begin images/creatures.xml
+/copy:images/creatures.xml
+
 #begin images/gems.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -23,6 +23,7 @@ public abstract class LevelMakerBase
     public List<TextureRegion> Bushes { get; } = [];
     public List<TextureRegion> Gems { get; } = [];
     public List<TextureRegion> MysteryBoxes { get; } = [];
+    public TextureAtlas CreaturesAtlas { get; }
     protected Tilemap Tilemap { get; set; }
 
     public LevelMakerBase(ContentManager content)
@@ -35,6 +36,7 @@ public abstract class LevelMakerBase
             .Where((_, i) => new[] { 0, 1, 4, 5, 6 }.Contains(i % 7)).ToList(); // we only want graphics 0, 1, 4, 5, 6 per row
         Gems = GetTextureRegionsFromFile("images/gems", 4, 2);
         MysteryBoxes = GetTextureRegionsFromFile("images/jump_blocks", 6, 5);
+        CreaturesAtlas = TextureAtlas.FromFile(_content, "images/creatures.xml");
     }
 
     public abstract GameLevel Generate(int columns, int rows);

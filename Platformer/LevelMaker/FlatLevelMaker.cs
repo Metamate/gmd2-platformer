@@ -1,5 +1,4 @@
 using System;
-using GMDCore.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Platformer.LevelMaker;
 

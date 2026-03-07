@@ -2,22 +2,22 @@ using Microsoft.Xna.Framework;
 using Platformer.Entities;
 using Platformer.Input;
 
-namespace Platformer.States.Entity;
+namespace Platformer.States.PlayerStates;
 
-public class PlayerWalkState(Player player) : PlayerStateBase(player)
+public class PlayerIdleState(Player player) : PlayerStateBase(player)
 {
     public override void Enter()
     {
-        SetAnimation("walk-animation");
+        SetAnimation("idle-animation");
     }
 
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
 
-        if (Player.Velocity.X == 0)
+        if (Player.Velocity.X != 0)
         {
-            Player.ChangeState(new PlayerIdleState(Player));
+            Player.ChangeState(new PlayerWalkState(Player));
         }
 
         if (GameController.Down)

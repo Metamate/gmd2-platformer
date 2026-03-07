@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Platformer.Entities;
 using Platformer.Input;
 
-namespace Platformer.States.Entity;
+namespace Platformer.States.PlayerStates;
 
 public class PlayerDuckState(Player player) : PlayerStateBase(player)
 {

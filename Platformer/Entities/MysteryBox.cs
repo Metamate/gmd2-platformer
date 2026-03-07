@@ -1,6 +1,7 @@
 using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Platformer.States.PlayerStates;
 
 namespace Platformer.Entities;
 
@@ -16,7 +17,6 @@ public class MysteryBox(TextureRegion region, Vector2 position) : IEntity
 
     public void Update(GameTime gameTime)
     {
-        // Boxes are currently static environmental objects
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -30,24 +30,35 @@ public class MysteryBox(TextureRegion region, Vector2 position) : IEntity
     {
         if (!Active || !Collidable || !other.Collidable) return false;
 
-        bool intersects = Bounds.Intersects(other.Bounds);
-        
-        // Classic "hit from below" interaction logic
-        if (intersects && !WasHit && other is Player player)
+        // Use a 1-pixel sensor to bridge the gap between "touching" and "actual intersection"
+        Rectangle sensor = Bounds;
+        sensor.Height += 1;
+
+        bool isSensorTouching = sensor.Intersects(other.Bounds);
+
+        if (isSensorTouching && !WasHit && other is Player player)
         {
-            // If player is moving UP and their head is below the box's center
-            if (player.Velocity.Y < 0 && player.Position.Y > Position.Y)
+            if (player.State is PlayerJumpState)
             {
-                OnHit();
+                // Create a smaller "head" area to prevent hit-from-side triggers
+                int horizontalInset = 1;
+                Rectangle headArea = player.Bounds;
+                headArea.X += horizontalInset;
+                headArea.Width -= horizontalInset * 2;
+
+                if (sensor.Intersects(headArea) && player.Bounds.Top >= Bounds.Bottom)
+                {
+                    OnHit();
+                }
             }
         }
 
-        return intersects;
+        return isSensorTouching;
     }
 
     private void OnHit()
     {
         WasHit = true;
-        // TODO: Spawn a gem or play a sound here later
+        // TODO: Spawn a gem or play a sound here
     }
 }

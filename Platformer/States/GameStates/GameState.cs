@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Platformer.States.Game;
+namespace Platformer.States.GameStates;
 
 public abstract class GameState(Game1 game)
 {

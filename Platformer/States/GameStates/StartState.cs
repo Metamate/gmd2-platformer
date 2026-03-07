@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Platformer.LevelMaker;
 
-namespace Platformer.States.Game;
+namespace Platformer.States.GameStates;
 
 public class StartState : GameState
 {

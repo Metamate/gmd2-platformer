@@ -1,17 +1,16 @@
 using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Platformer.Entities;
 using Platformer.Input;
 using Platformer.LevelMaker;
 
-namespace Platformer.States.Game;
+namespace Platformer.States.GameStates;
 
 public class PlayState(Game1 game) : GameState(game)
 {
     private InputHandler _inputHandler;
     private LevelMakerBase _levelMaker;
-    private Player _player;
+    private Entities.Player _player;
     private GameLevel _currentLevel;
 
     public override void Enter()
@@ -20,7 +19,7 @@ public class PlayState(Game1 game) : GameState(game)
         _currentLevel = _levelMaker.Generate(30, 9);
 
         TextureAtlas alienAtlas = TextureAtlas.FromFile(Game.Content, "images/alien.xml");
-        _player = new Player(alienAtlas, _currentLevel);
+        _player = new Entities.Player(alienAtlas, _currentLevel);
         _currentLevel.Player = _player;
 
         _inputHandler = new InputHandler(_levelMaker, _currentLevel);

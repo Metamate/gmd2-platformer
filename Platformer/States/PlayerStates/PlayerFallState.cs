@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Platformer.Entities;
 using Platformer.Input;
 
-namespace Platformer.States.Entity;
+namespace Platformer.States.PlayerStates;
 
 public class PlayerFallState(Player player) : PlayerStateBase(player)
 {

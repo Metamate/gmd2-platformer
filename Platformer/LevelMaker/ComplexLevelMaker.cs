@@ -19,6 +19,7 @@ public class ComplexLevelMaker(ContentManager content) : LevelMakerBase(content)
         float pillarChance = 0.15f;
         float bushChance = 0.3f;
         float boxChance = 0.1f;
+        float snailChance = 0.1f;
 
         for (int x = 0; x < columns; x++)
         {
@@ -50,6 +51,14 @@ public class ComplexLevelMaker(ContentManager content) : LevelMakerBase(content)
                 // Target the tile space directly above the ground column
                 Vector2 bushPosition = Tilemap.TileToPoint(x, (rows - currentHeight) - 1);
                 level.AddEntity(new Bush(GetRandomBush(), bushPosition));
+            }
+
+            // Spawn snails on flat ground (not pillars, to keep it simple)
+            if (currentHeight == groundHeight && Random.Shared.NextDouble() < snailChance)
+            {
+                // Position snail on top of ground
+                Vector2 snailPosition = Tilemap.TileToPoint(x, (rows - currentHeight) - 1);
+                level.AddEntity(new Snail(CreaturesAtlas, level, snailPosition));
             }
 
             // Spawn floating mystery boxes

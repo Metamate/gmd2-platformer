@@ -46,6 +46,12 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
             if (entity.Active)
             {
                 entity.Update(gameTime);
+                
+                // Check interactions for all entities (solid or trigger)
+                if (Player != null)
+                {
+                    entity.Collides(Player);
+                }
             }
         }
 

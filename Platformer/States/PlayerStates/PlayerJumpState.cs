@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Platformer.Entities;
 
-namespace Platformer.States.Entity;
+namespace Platformer.States.PlayerStates;
 
 public class PlayerJumpState(Player player) : PlayerStateBase(player)
 {
