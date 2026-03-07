@@ -1,12 +1,17 @@
+using System;
+using System.Collections.Generic;
 using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Platformer.States.PlayerStates;
+using Platformer.LevelMaker;
 
 namespace Platformer.Entities;
 
-public class MysteryBox(TextureRegion region, Vector2 position) : IEntity
+public class MysteryBox(GameLevel level, TextureRegion region, Vector2 position, List<TextureRegion> gemPool) : IEntity
 {
+    private readonly List<TextureRegion> _gemPool = gemPool;
+    public GameLevel Level { get; } = level;
     public bool Collidable { get; set; } = true;
     public bool IsSolid => true;
     public bool Active { get; set; } = true;
@@ -60,6 +65,13 @@ public class MysteryBox(TextureRegion region, Vector2 position) : IEntity
     private void OnHit()
     {
         WasHit = true;
-        // TODO: Spawn a gem or play a sound here
+
+        if (_gemPool != null && _gemPool.Count > 0)
+        {
+            var gemRegion = _gemPool[Random.Shared.Next(_gemPool.Count)];
+            // Spawn gem above the box with an upward pop (initial velocity -300f)
+            Vector2 gemPos = new Vector2(Position.X, Position.Y - gemRegion.Height);
+            Level.AddEntity(new Gem(gemRegion, gemPos, new Vector2(0, -300f)));
+        }
     }
 }

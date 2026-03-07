@@ -15,10 +15,18 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
     public Camera Camera { get; } = new();
     public Player Player { get; set; }
     public List<IEntity> Entities { get; } = [];
+    
+    private readonly List<IEntity> _pendingAdd = [];
+    private readonly List<IEntity> _pendingRemove = [];
 
     public void AddEntity(IEntity entity)
     {
-        Entities.Add(entity);
+        _pendingAdd.Add(entity);
+    }
+
+    public void RemoveEntity(IEntity entity)
+    {
+        _pendingRemove.Add(entity);
     }
 
     public void RandomizeGraphics(LevelMakerBase maker)
@@ -47,13 +55,24 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
             {
                 entity.Update(gameTime);
                 
-                // Check interactions for all entities (solid or trigger)
+                // Check interactions for all entities
                 if (Player != null)
                 {
                     entity.Collides(Player);
                 }
             }
+            else
+            {
+                RemoveEntity(entity);
+            }
         }
+
+        // Process deferred additions and removals
+        foreach (var entity in _pendingRemove) Entities.Remove(entity);
+        _pendingRemove.Clear();
+
+        foreach (var entity in _pendingAdd) Entities.Add(entity);
+        _pendingAdd.Clear();
 
         UpdateCamera();
     }
