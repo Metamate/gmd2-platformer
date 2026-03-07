@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
@@ -20,12 +21,27 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
         Entities.Add(entity);
     }
 
+    public void RandomizeGraphics(LevelMakerBase maker)
+    {
+        Tilemap.Tileset = maker.GetRandomTileset();
+        Tilemap.Topperset = maker.GetRandomTopperset();
+        Background = maker.GetRandomBackground();
+
+        foreach (var bush in Entities.OfType<Bush>())
+        {
+            bush.Region = maker.GetRandomBushAndCactus();
+        }
+    }
+
     public void Update(GameTime gameTime)
     {
         Player?.Update(gameTime);
         foreach (var entity in Entities)
         {
-            entity.Update(gameTime);
+            if (entity.Active)
+            {
+                entity.Update(gameTime);
+            }
         }
 
         UpdateCamera();
@@ -55,7 +71,10 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
 
         foreach (var entity in Entities)
         {
-            entity.Draw(spriteBatch);
+            if (entity.Active)
+            {
+                entity.Draw(spriteBatch);
+            }
         }
 
         Player?.Draw(spriteBatch);

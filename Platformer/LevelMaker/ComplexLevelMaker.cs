@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
 namespace Platformer.LevelMaker;
@@ -9,10 +10,13 @@ public class ComplexLevelMaker(ContentManager content) : LevelMakerBase(content)
     {
         Tilemap = new(Tilesets[Random.Shared.Next(Tilesets.Count)], columns, rows, Toppersets[Random.Shared.Next(Toppersets.Count)]);
 
+        GameLevel level = new(Tilemap, GetRandomBackground());
+
         int groundHeight = 3;
         int pillarHeight = 2;
         float pitChance = 0.15f;
         float pillarChance = 0.15f;
+        float bushChance = 0.3f;
 
         for (int x = 0; x < columns; x++)
         {
@@ -37,8 +41,16 @@ public class ComplexLevelMaker(ContentManager content) : LevelMakerBase(content)
             }
 
             CreateGroundColumn(x, currentHeight);
+
+            // Spawn decorative bushes on solid ground
+            if (Random.Shared.NextDouble() < bushChance)
+            {
+                // Target the tile space directly above the ground column
+                Vector2 bushPosition = Tilemap.TileToPoint(x, (rows - currentHeight) - 1);
+                level.AddEntity(new Entities.Bush(GetRandomBushAndCactus(), bushPosition));
+            }
         }
 
-        return new GameLevel(Tilemap, GetRandomBackground());
+        return level;
     }
 }

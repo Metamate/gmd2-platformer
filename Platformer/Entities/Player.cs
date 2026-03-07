@@ -29,6 +29,8 @@ public class Player : IEntity
     );
 
     public bool Collidable { get; set; } = true;
+    public bool Active { get; set; } = true;
+    public Rectangle Bounds => Hitbox;
 
     public Player(TextureAtlas textureAtlas, GameLevel level)
     {
