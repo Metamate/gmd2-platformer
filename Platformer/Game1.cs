@@ -28,7 +28,6 @@ public class Game1 : Core
 
         TextureAtlas alienAtlas = TextureAtlas.FromFile(Content, "images/alien.xml");
         _player = new Player(alienAtlas, CurrentLevel);
-        CurrentLevel.AddEntity(_player);
         CurrentLevel.Player = _player;
 
         _inputHandler = new InputHandler(_levelMaker, CurrentLevel);

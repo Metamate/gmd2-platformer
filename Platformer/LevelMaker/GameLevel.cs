@@ -22,6 +22,7 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
 
     public void Update(GameTime gameTime)
     {
+        Player.Update(gameTime);
         foreach (var entity in Entities)
         {
             entity.Update(gameTime);
@@ -32,7 +33,7 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
             float worldWidth = Tilemap.Columns * Tilemap.TileWidth;
             float playerCenterX = Player.Position.X + (Player.Sprite.Width / 2f);
             float clampedX = MathHelper.Clamp(playerCenterX, GameSettings.VirtualWidth / 2f, worldWidth - GameSettings.VirtualWidth / 2f);
-            
+
             Camera.Follow(new Vector2(clampedX, GameSettings.VirtualHeight / 2f), GameSettings.VirtualWidth, GameSettings.VirtualHeight);
         }
     }
@@ -51,12 +52,16 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
         // Draw Tilemap
         spriteBatch.Begin(transformMatrix: Camera.Transform * screenScale, samplerState: SamplerState.PointClamp);
         Tilemap.Draw(spriteBatch);
-        
+
         // Draw Entities
         foreach (var entity in Entities)
         {
             entity.Draw(spriteBatch);
         }
+
+        // Draw Player
+        Player.Draw(spriteBatch);
+
         spriteBatch.End();
     }
 }
