@@ -22,7 +22,7 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
 
     public void Update(GameTime gameTime)
     {
-        Player.Update(gameTime);
+        Player?.Update(gameTime);
         foreach (var entity in Entities)
         {
             entity.Update(gameTime);
@@ -60,7 +60,7 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
         }
 
         // Draw Player
-        Player.Draw(spriteBatch);
+        Player?.Draw(spriteBatch);
 
         spriteBatch.End();
     }

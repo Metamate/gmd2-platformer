@@ -4,7 +4,7 @@ namespace Platformer.Graphics;
 
 public class Camera
 {
-    public Matrix Transform { get; private set; }
+    public Matrix Transform { get; private set; } = Matrix.Identity;
     public Vector2 Position { get; set; }
 
     public void Follow(Vector2 target, int viewportWidth, int viewportHeight)
