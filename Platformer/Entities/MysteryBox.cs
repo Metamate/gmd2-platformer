@@ -8,9 +8,9 @@ using Platformer.LevelMaker;
 
 namespace Platformer.Entities;
 
-public class MysteryBox(GameLevel level, TextureRegion region, Vector2 position, List<TextureRegion> gemPool) : IEntity
+public class MysteryBox(GameLevel level, TextureRegion region, Vector2 position, List<TextureRegion> gems) : IEntity
 {
-    private readonly List<TextureRegion> _gemPool = gemPool;
+    private List<TextureRegion> gems = gems;
     public GameLevel Level { get; } = level;
     public bool Collidable { get; set; } = true;
     public bool IsSolid => true;
@@ -66,11 +66,11 @@ public class MysteryBox(GameLevel level, TextureRegion region, Vector2 position,
     {
         WasHit = true;
 
-        if (_gemPool != null && _gemPool.Count > 0)
+        if (gems != null && gems.Count > 0)
         {
-            var gemRegion = _gemPool[Random.Shared.Next(_gemPool.Count)];
+            var gemRegion = gems[Random.Shared.Next(gems.Count)];
             // Spawn gem above the box with an upward pop (initial velocity -300f)
-            Vector2 gemPos = new Vector2(Position.X, Position.Y - gemRegion.Height);
+            Vector2 gemPos = new(Position.X, Position.Y - gemRegion.Height);
             Level.AddEntity(new Gem(gemRegion, gemPos, new Vector2(0, -300f)));
         }
     }

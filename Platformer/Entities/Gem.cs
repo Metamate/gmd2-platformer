@@ -22,7 +22,7 @@ public class Gem(TextureRegion region, Vector2 position, Vector2 velocity) : IEn
     public void Update(GameTime gameTime)
     {
         float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        
+
         // Simple physics for the gem animation
         Velocity = new Vector2(Velocity.X, Velocity.Y + Gravity * dt);
         Position += Velocity * dt;
@@ -45,7 +45,7 @@ public class Gem(TextureRegion region, Vector2 position, Vector2 velocity) : IEn
         {
             if (Bounds.Intersects(other.Bounds))
             {
-                Active = false; // Player "collects" it
+                Active = false; // Gem is collected
                 return true;
             }
         }

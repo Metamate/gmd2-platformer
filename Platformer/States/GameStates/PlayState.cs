@@ -29,6 +29,11 @@ public class PlayState(Game1 game) : GameStateBase(game)
     {
         _inputHandler.HandleInput();
         _currentLevel.Update(gameTime);
+
+        if (_player.Position.Y > _currentLevel.Tilemap.Rows * _currentLevel.Tilemap.TileHeight)
+        {
+            Game.SetState(new StartState(Game));
+        }
     }
 
     public override void Draw(SpriteBatch spriteBatch)
