@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Platformer.Entities;
+using Platformer.Audio;
 
 namespace Platformer.States.PlayerStates;
 
@@ -11,6 +12,7 @@ public class PlayerJumpState(Player player) : PlayerStateBase(player)
     {
         SetAnimation("jump-animation");
         Player.Velocity = new Vector2(Player.Velocity.X, JumpImpulse);
+        SoundManager.PlayJump();
     }
 
     public override void Update(GameTime gameTime)

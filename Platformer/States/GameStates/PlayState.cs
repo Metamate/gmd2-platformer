@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Platformer.Input;
 using Platformer.LevelMaker;
+using Platformer.Audio;
 
 namespace Platformer.States.GameStates;
 
@@ -11,7 +12,6 @@ public class PlayState(Game1 game) : GameStateBase(game)
     private LevelMakerBase _levelMaker;
     private Entities.Player _player;
     private GameLevel _currentLevel;
-    private SpriteFont _font;
 
     public override void Enter()
     {
@@ -22,7 +22,12 @@ public class PlayState(Game1 game) : GameStateBase(game)
         _player = new Entities.Player(alienAtlas, _currentLevel);
         _currentLevel.Player = _player;
 
-        _font = Game.Content.Load<SpriteFont>("fonts/font");
+        SoundManager.PlayMusic();
+    }
+
+    public override void Exit()
+    {
+        SoundManager.StopMusic();
     }
 
     public override void Update(GameTime gameTime)
@@ -45,6 +50,7 @@ public class PlayState(Game1 game) : GameStateBase(game)
 
         if (!_player.Active)
         {
+            SoundManager.PlayDeath();
             Game.SetState(new StartState(Game));
         }
     }
@@ -54,7 +60,7 @@ public class PlayState(Game1 game) : GameStateBase(game)
         _currentLevel.Draw(spriteBatch, Game.ScreenScaleMatrix);
 
         spriteBatch.Begin(transformMatrix: Game.ScreenScaleMatrix, samplerState: SamplerState.PointClamp);
-        spriteBatch.DrawString(_font, $"Score: {_player.Score}", new Vector2(5, 5), Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
+        spriteBatch.DrawString(Game1.DefaultFont, $"Score: {_player.Score}", new Vector2(5, 5), Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
         spriteBatch.End();
     }
 }

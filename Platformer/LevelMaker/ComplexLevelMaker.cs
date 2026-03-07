@@ -64,7 +64,7 @@ public class ComplexLevelMaker(ContentManager content) : LevelMakerBase(content)
             // Spawn floating mystery boxes
             if (Random.Shared.NextDouble() < boxChance)
             {
-                int boxHeight = 4; // 4 tiles above the ground surface
+                int boxHeight = (currentHeight > groundHeight) ? 3 : 4;
                 Vector2 boxPosition = Tilemap.TileToPoint(x, (rows - currentHeight) - boxHeight);
                 level.AddEntity(new MysteryBox(level, GetRandomMysteryBox(), boxPosition, Gems));
             }

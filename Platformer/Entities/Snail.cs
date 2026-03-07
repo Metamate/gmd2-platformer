@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Platformer.States.SnailStates;
 using Platformer.States.PlayerStates;
 using Platformer.LevelMaker;
+using Platformer.Audio;
 
 namespace Platformer.Entities;
 
@@ -65,6 +66,7 @@ public class Snail : IEntity
             {
                 Active = false;
                 player.Score++;
+                SoundManager.PlayKill();
                 return false; // No physical collision if it's a kill
             }
             else

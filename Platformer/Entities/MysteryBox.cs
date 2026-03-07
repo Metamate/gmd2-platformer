@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Platformer.States.PlayerStates;
 using Platformer.LevelMaker;
+using Platformer.Audio;
 
 namespace Platformer.Entities;
 
@@ -42,7 +43,7 @@ public class MysteryBox(GameLevel level, TextureRegion region, Vector2 position,
 
         bool isSensorTouching = sensor.Intersects(other.Bounds);
 
-        if (isSensorTouching && !WasHit && other is Player player)
+        if (isSensorTouching && other is Player player)
         {
             if (player.State is PlayerJumpState)
             {
@@ -54,7 +55,14 @@ public class MysteryBox(GameLevel level, TextureRegion region, Vector2 position,
 
                 if (sensor.Intersects(headArea) && player.Bounds.Top >= Bounds.Bottom)
                 {
-                    OnHit();
+                    if (!WasHit)
+                    {
+                        OnHit();
+                    }
+                    else
+                    {
+                        SoundManager.PlayEmptyBlock();
+                    }
                 }
             }
         }
@@ -65,6 +73,7 @@ public class MysteryBox(GameLevel level, TextureRegion region, Vector2 position,
     private void OnHit()
     {
         WasHit = true;
+        SoundManager.PlayPowerupReveal();
 
         if (gems != null && gems.Count > 0)
         {

@@ -146,15 +146,9 @@
 /processorParam:Quality=Best
 /build:sounds/kill.wav
 
-#begin sounds/kill2.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:sounds/kill2.wav
-
 #begin sounds/music.wav
 /importer:WavImporter
-/processor:SoundEffectProcessor
+/processor:SongProcessor
 /processorParam:Quality=Best
 /build:sounds/music.wav
 

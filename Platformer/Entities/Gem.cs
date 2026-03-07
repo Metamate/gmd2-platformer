@@ -2,6 +2,7 @@ using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Platformer.LevelMaker;
+using Platformer.Audio;
 
 namespace Platformer.Entities;
 
@@ -47,6 +48,7 @@ public class Gem(TextureRegion region, Vector2 position, Vector2 velocity) : IEn
             {
                 Active = false; // Gem is collected
                 player.Score++;
+                SoundManager.PlayPickup();
                 return true;
             }
         }

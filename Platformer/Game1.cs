@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Platformer.States.GameStates;
+using Platformer.Audio;
 
 namespace Platformer;
 
@@ -9,6 +10,8 @@ public class Game1 : Core
 {
     private GameStateBase _currentState;
     public new Matrix ScreenScaleMatrix => base.ScreenScaleMatrix;
+    
+    public static SpriteFont DefaultFont { get; private set; }
 
     public Game1() : base("Platformer", 1280, 720, GameSettings.VirtualWidth, GameSettings.VirtualHeight)
     {
@@ -18,6 +21,13 @@ public class Game1 : Core
     {
         base.Initialize();
         SetState(new StartState(this));
+    }
+
+    protected override void LoadContent()
+    {
+        base.LoadContent();
+        DefaultFont = Content.Load<SpriteFont>("fonts/font");
+        SoundManager.LoadContent(Content);
     }
 
     public void SetState(GameStateBase newState)
