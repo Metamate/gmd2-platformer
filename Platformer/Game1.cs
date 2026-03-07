@@ -6,15 +6,15 @@ using Platformer.Entities;
 using Platformer.Graphics;
 using Platformer.Input;
 using Platformer.LevelMaker;
+using Platformer.States.Game;
 
 namespace Platformer;
 
 public class Game1 : Core
 {
-    private InputHandler _inputHandler;
-    public GameLevel CurrentLevel { get; set; }
-    private LevelMakerBase _levelMaker;
-    private Player _player;
+    private GameState _currentState;
+
+    public new Matrix ScreenScaleMatrix => base.ScreenScaleMatrix;
 
     public Game1() : base("Platformer", 1280, 720, GameSettings.VirtualWidth, GameSettings.VirtualHeight)
     {
@@ -23,30 +23,26 @@ public class Game1 : Core
     protected override void Initialize()
     {
         base.Initialize();
-        _levelMaker = new ComplexLevelMaker(Content);
-        CurrentLevel = _levelMaker.Generate(30, 9);
+        SetState(new StartState(this));
+    }
 
-        TextureAtlas alienAtlas = TextureAtlas.FromFile(Content, "images/alien.xml");
-        _player = new Player(alienAtlas, CurrentLevel);
-        CurrentLevel.Player = _player;
-
-        _inputHandler = new InputHandler(_levelMaker, CurrentLevel);
+    public void SetState(GameState newState)
+    {
+        _currentState?.Exit();
+        _currentState = newState;
+        _currentState.Enter();
     }
 
     protected override void Update(GameTime gameTime)
     {
-        _inputHandler.HandleInput();
-        CurrentLevel.Update(gameTime);
-
+        _currentState?.Update(gameTime);
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
-
-        CurrentLevel.Draw(SpriteBatch, ScreenScaleMatrix);
-
+        _currentState?.Draw(SpriteBatch);
         base.Draw(gameTime);
     }
 }
