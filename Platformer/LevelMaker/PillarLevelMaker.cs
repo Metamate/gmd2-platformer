@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Platformer.LevelMaker;
 
-public class PillarsLevelMaker(ContentManager content) : LevelMakerBase(content)
+public class PillarLevelMaker(ContentManager content) : LevelMakerBase(content)
 {
     public override GameLevel Generate(int columns, int rows)
     {
