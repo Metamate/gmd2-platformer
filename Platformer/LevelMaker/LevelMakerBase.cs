@@ -77,11 +77,11 @@ public abstract class LevelMakerBase
             {
                 if (y == Tilemap.Rows - groundHeight)
                 {
-                    Tilemap.SetTile(x, y, new Tile(0, 0, true));
+                    Tilemap.SetTile(x, y, new Tile(12, 0, true));
                 }
                 else
                 {
-                    Tilemap.SetTile(x, y, new Tile(0, true));
+                    Tilemap.SetTile(x, y, new Tile(12, true));
                 }
             }
         }
