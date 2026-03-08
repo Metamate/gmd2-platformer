@@ -15,9 +15,9 @@ public abstract class PlayerStateBase
     protected const int CollisionInset = 1;
     protected const float CoyoteTime = 0.1f;
 
-    protected Entities.Player Player { get; }
+    protected Player Player { get; }
 
-    protected PlayerStateBase(Entities.Player player)
+    protected PlayerStateBase(Player player)
     {
         Player = player;
     }
