@@ -4,13 +4,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Platformer.Input;
 using Platformer.LevelMaker;
 using Platformer.Audio;
+using Platformer.Entities;
 
 namespace Platformer.States.GameStates;
 
 public class PlayState(Game1 game) : GameStateBase(game)
 {
     private LevelMakerBase _levelMaker;
-    private Entities.Player _player;
+    private Player _player;
     private GameLevel _currentLevel;
 
     public override void Enter()
@@ -19,7 +20,7 @@ public class PlayState(Game1 game) : GameStateBase(game)
         _currentLevel = _levelMaker.Generate(50, 9);
 
         TextureAtlas alienAtlas = TextureAtlas.FromFile(Game.Content, "images/alien.xml");
-        _player = new Entities.Player(alienAtlas, _currentLevel);
+        _player = new Player(alienAtlas, _currentLevel);
         _currentLevel.Player = _player;
 
         SoundManager.PlayMusic();

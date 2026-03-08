@@ -170,13 +170,13 @@ public abstract class PlayerStateBase
 
     private void SnapToRight(float x)
     {
-        Player.Position = new Vector2(x - Player.Sprite.Width + Entities.Player.HitboxInset, Player.Position.Y);
+        Player.Position = new Vector2(x - Player.Sprite.Width + Player.HitboxInset, Player.Position.Y);
         Player.Velocity = new Vector2(0, Player.Velocity.Y);
     }
 
     private void SnapToLeft(float x)
     {
-        Player.Position = new Vector2(x - Entities.Player.HitboxInset, Player.Position.Y);
+        Player.Position = new Vector2(x - Player.HitboxInset, Player.Position.Y);
         Player.Velocity = new Vector2(0, Player.Velocity.Y);
     }
 
