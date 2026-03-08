@@ -9,7 +9,7 @@ namespace Platformer.States.GameStates;
 
 public class StartState(Game1 game) : GameStateBase(game)
 {
-    private string _title = "VIA Mario Bros";
+    private string _title = "Super VIA Bros";
     private Vector2 _titlePosition;
     private string _subtitle = "Press Enter";
     private Vector2 _subtitlePosition;
