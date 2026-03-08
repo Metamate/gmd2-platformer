@@ -1,6 +1,3 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 namespace GMDCore.Graphics;
 
 public readonly struct Tile(int graphicId = -1, int topperId = -1, bool isSolid = false)

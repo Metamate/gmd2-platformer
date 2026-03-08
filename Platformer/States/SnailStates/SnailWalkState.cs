@@ -43,11 +43,4 @@ public class SnailWalkState(Snail snail) : SnailStateBase(snail)
         float probeX = _direction > 0 ? bounds.Right : bounds.Left;
         return !Snail.Level.Tilemap.IsSolidAt(probeX, bounds.Bottom + 1);
     }
-
-    private bool IsAtWall()
-    {
-        Rectangle bounds = Snail.Bounds;
-        float probeX = _direction > 0 ? bounds.Right + 1 : bounds.Left - 1;
-        return Snail.Level.Tilemap.IsSolidAt(probeX, bounds.Center.Y);
-    }
 }
