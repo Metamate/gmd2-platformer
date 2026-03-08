@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TextureAtlas>
-    <Texture>images/blue_alien</Texture>
+    <Texture>images/green_alien</Texture>
     <Regions>
         <Region name="alien1" x="0" y="0" width="16" height="20" />
         <Region name="alien2" x="16" y="0" width="16" height="20" />

@@ -45,7 +45,7 @@ public class Game1 : Core
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.Black);
         _currentState?.Draw(SpriteBatch);
         base.Draw(gameTime);
     }
