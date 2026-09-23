@@ -3,9 +3,41 @@
 Source code for session **05 Super Mario Bros** of the Game Architecture (GAR) course: a 2D
 platformer with procedural levels, the State pattern, a camera and platformer physics.
 
+The game is built up in steps. Each step is a separate project that builds on the previous
+one, so you can follow the code's evolution one concept at a time. Compare two neighbouring
+steps (e.g. with a diff tool) to see exactly what changed.
+
+| Step | Topic | What's new |
+| --- | --- | --- |
+| `Platformer0` | Tilemaps from code | A level generated in code: sky and solid ground tiles, drawn with a random tileset |
+| `Platformer1` | Level makers | Interchangeable level generators (the Strategy pattern), tile toppers and backgrounds |
+| `Platformer2` | Player & physics | Gravity, jumping, tile collision, a smaller hitbox and coyote time; the player's state is an enum |
+| `Platformer3` | State pattern | Each player state (idle, walk, jump, fall, duck) becomes its own class |
+| `Platformer4` | Camera | A level wider than the screen, a camera following the player, and a parallax background |
+| `Platformer5` | Game states | A title screen and a play state |
+| `Platformer6` | Entities | `IEntity`, bushes, mystery boxes that pop out gems, and a score |
+| `Platformer7` | Basic AI | Snails with their own states (idle, walk, chase); stomp them or die |
+| `Platformer8` | Audio | Music and sound effects (the finished game) |
+
+All steps share the **GMDCore** library, which contains the final versions of the reusable
+classes (`Tilemap`, `Tile`, `Tileset`, `TextureAtlas`, `AnimatedSprite`, input, …).
+
+## Controls
+
+| Key | Action |
+| --- | --- |
+| `A` `D` / arrow keys | Move (from `Platformer2`) |
+| `Space` | Jump (from `Platformer2`) |
+| `S` / down arrow | Duck (from `Platformer2`) |
+| `R` | Randomize the level's graphics (from `Platformer0`) |
+| `1`–`5` | Switch level maker (`Platformer1` only) |
+| `Enter` | Start the game (from `Platformer5`) |
+| `F` | Back to the title screen (from `Platformer5`) |
+| `Esc` | Quit |
+
 ## Content
 
-The game's raw assets are built by the **content builder** (MonoGame 3.8.5+):
+All steps share the same raw assets, built by the **content builder** (MonoGame 3.8.5+):
 
 ```text
 Content/
@@ -16,16 +48,18 @@ Content/
 ```
 
 There is no `.mgcb` file and no MGCB Editor. `Builder.cs` decides how each kind of asset is
-processed. The game project imports `BuildContent.targets`, so building the game also builds
+processed. Each step project imports `BuildContent.targets`, so building a step also builds
 the assets into its output folder, where `Content.Load` finds them.
 
 To add an asset, put it in `Content/Assets` and, if no existing rule matches it, add a rule
 in `Builder.cs`.
 
-## Running
+## Running a step
 
 Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download).
 
 ```sh
-dotnet run --project Platformer
+dotnet run --project Platformer8
 ```
+
+Or open `Platformer.slnx` and choose the step to run.
