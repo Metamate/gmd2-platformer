@@ -2,6 +2,7 @@ using GMDCore.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Platformer2.Entities;
+using Platformer2.Input;
 
 namespace Platformer2.LevelMaker;
 
@@ -21,6 +22,11 @@ public class GameLevel(Tilemap tilemap, Tilemap toppers, TextureRegion backgroun
 
     public void Update(GameTime gameTime)
     {
+        if (GameController.ToggleDebug)
+        {
+            DebugDraw.Enabled = !DebugDraw.Enabled;
+        }
+
         Player?.Update(gameTime);
     }
 
@@ -31,6 +37,28 @@ public class GameLevel(Tilemap tilemap, Tilemap toppers, TextureRegion backgroun
         Tilemap.Draw(spriteBatch);
         Toppers.Draw(spriteBatch);
         Player?.Draw(spriteBatch);
+        DrawDebug(spriteBatch);
         spriteBatch.End();
+    }
+
+    // With debug drawing on (F1), outline the solid tiles and the player's hitbox.
+    private void DrawDebug(SpriteBatch spriteBatch)
+    {
+        for (int row = 0; row < Tilemap.Rows; row++)
+        {
+            for (int column = 0; column < Tilemap.Columns; column++)
+            {
+                if (Tilemap.GetTile(column, row).IsSolid)
+                {
+                    Vector2 position = Tilemap.TileToPoint(column, row);
+                    DebugDraw.Rectangle(spriteBatch, new Rectangle((int)position.X, (int)position.Y, (int)Tilemap.TileWidth, (int)Tilemap.TileHeight), Color.Red);
+                }
+            }
+        }
+
+        if (Player != null)
+        {
+            DebugDraw.Rectangle(spriteBatch, Player.Bounds, Color.Lime);
+        }
     }
 }

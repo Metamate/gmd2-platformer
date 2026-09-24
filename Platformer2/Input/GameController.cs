@@ -8,6 +8,7 @@ public static class GameController
 {
     public static bool Jump => Core.Input.Keyboard.WasKeyJustPressed(Keys.Space);
     public static bool Randomize => Core.Input.Keyboard.WasKeyJustPressed(Keys.R);
+    public static bool ToggleDebug => Core.Input.Keyboard.WasKeyJustPressed(Keys.F1);
     public static bool Left => Core.Input.Keyboard.IsKeyDown(Keys.Left) || Core.Input.Keyboard.IsKeyDown(Keys.A);
     public static bool Right => Core.Input.Keyboard.IsKeyDown(Keys.Right) || Core.Input.Keyboard.IsKeyDown(Keys.D);
     public static bool Up => Core.Input.Keyboard.IsKeyDown(Keys.Up) || Core.Input.Keyboard.IsKeyDown(Keys.W);
