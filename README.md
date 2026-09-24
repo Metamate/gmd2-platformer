@@ -22,6 +22,16 @@ steps (e.g. with a diff tool) to see exactly what changed.
 All steps share the **GMDCore** library, which contains the final versions of the reusable
 classes (`Tilemap`, `Tile`, `Tileset`, `TextureAtlas`, `AnimatedSprite`, input, …).
 
+## New in GMDCore
+
+Compared with the core in [gmd2-snake](https://github.com/Metamate/gmd2-snake):
+
+- `Graphics/Tile` (new): a tile knows whether it is solid, not just its graphic.
+- `Graphics/Tilemap`: stores `Tile` values, has a `Position`, and adds collision helpers
+  (`IsSolidAt`, `GetTileLeft`/`Right`/`Top`/`Bottom`, `TileToPoint`).
+- `Graphics/AnimatedSprite`: `Play(animation)` switches to an animation from its first frame
+  (and does nothing if it is already playing).
+
 ## Controls
 
 | Key | Action |
