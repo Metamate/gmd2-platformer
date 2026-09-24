@@ -7,7 +7,8 @@ public class PitLevelMaker(ContentManager content) : LevelMakerBase(content)
 {
     public override GameLevel Generate(int columns, int rows)
     {
-        Tilemap = new(Tilesets[Random.Shared.Next(Tilesets.Count)], columns, rows, Toppersets[Random.Shared.Next(Toppersets.Count)]);
+        Tilemap = new(Tilesets[Random.Shared.Next(Tilesets.Count)], columns, rows);
+        Toppers = new(Toppersets[Random.Shared.Next(Toppersets.Count)], columns, rows);
 
         int groundHeight = 3;
         float pitChance = 0.2f;
@@ -23,6 +24,6 @@ public class PitLevelMaker(ContentManager content) : LevelMakerBase(content)
             CreateGroundColumn(x, groundHeight);
         }
 
-        return new GameLevel(Tilemap, GetRandomBackground());
+        return new GameLevel(Tilemap, Toppers, GetRandomBackground());
     }
 }

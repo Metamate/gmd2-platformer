@@ -10,7 +10,7 @@ steps (e.g. with a diff tool) to see exactly what changed.
 | Step | Topic | What's new |
 | --- | --- | --- |
 | `Platformer0` | Tilemaps from code | A level generated in code: sky and solid ground tiles, drawn with a random tileset |
-| `Platformer1` | Level makers | Interchangeable level generators (the Strategy pattern), tile toppers and backgrounds |
+| `Platformer1` | Level makers | Interchangeable level generators (the Strategy pattern), a second tilemap for the toppers, and backgrounds |
 | `Platformer2` | Player & physics | Gravity, jumping, tile collision, a smaller hitbox and coyote time; the player's state is an enum |
 | `Platformer3` | State pattern | Each player state (idle, walk, jump, fall, duck) becomes its own class |
 | `Platformer4` | Camera | A level wider than the screen, a camera following the player, and a parallax background |

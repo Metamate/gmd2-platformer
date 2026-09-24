@@ -6,9 +6,10 @@ using Platformer4.Graphics;
 
 namespace Platformer4.LevelMaker;
 
-public class GameLevel(Tilemap tilemap, TextureRegion background)
+public class GameLevel(Tilemap tilemap, Tilemap toppers, TextureRegion background)
 {
     public Tilemap Tilemap { get; } = tilemap;
+    public Tilemap Toppers { get; } = toppers;
     public TextureRegion Background { get; set; } = background;
     public Camera Camera { get; } = new();
     public Player Player { get; set; }
@@ -16,7 +17,7 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
     public void RandomizeGraphics(LevelMakerBase maker)
     {
         Tilemap.Tileset = maker.GetRandomTileset();
-        Tilemap.Topperset = maker.GetRandomTopperset();
+        Toppers.Tileset = maker.GetRandomTopperset();
         Background = maker.GetRandomBackground();
     }
 
@@ -47,6 +48,7 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
 
         spriteBatch.Begin(transformMatrix: Camera.Transform * screenScale, samplerState: SamplerState.PointClamp);
         Tilemap.Draw(spriteBatch);
+        Toppers.Draw(spriteBatch);
         Player?.Draw(spriteBatch);
         spriteBatch.End();
     }

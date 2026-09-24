@@ -4,15 +4,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Platformer1.LevelMaker;
 
-public class GameLevel(Tilemap tilemap, TextureRegion background)
+public class GameLevel(Tilemap tilemap, Tilemap toppers, TextureRegion background)
 {
     public Tilemap Tilemap { get; } = tilemap;
+    public Tilemap Toppers { get; } = toppers;
     public TextureRegion Background { get; set; } = background;
 
     public void RandomizeGraphics(LevelMakerBase maker)
     {
         Tilemap.Tileset = maker.GetRandomTileset();
-        Tilemap.Topperset = maker.GetRandomTopperset();
+        Toppers.Tileset = maker.GetRandomTopperset();
         Background = maker.GetRandomBackground();
     }
 
@@ -21,6 +22,7 @@ public class GameLevel(Tilemap tilemap, TextureRegion background)
         spriteBatch.Begin(transformMatrix: screenScale, samplerState: SamplerState.PointClamp);
         Background.Draw(spriteBatch, Vector2.Zero, Color.White);
         Tilemap.Draw(spriteBatch);
+        Toppers.Draw(spriteBatch);
         spriteBatch.End();
     }
 }

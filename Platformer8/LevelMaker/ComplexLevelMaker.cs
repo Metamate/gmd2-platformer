@@ -9,9 +9,10 @@ public class ComplexLevelMaker(ContentManager content) : LevelMakerBase(content)
 {
     public override GameLevel Generate(int columns, int rows)
     {
-        Tilemap = new(Tilesets[Random.Shared.Next(Tilesets.Count)], columns, rows, Toppersets[Random.Shared.Next(Toppersets.Count)]);
+        Tilemap = new(Tilesets[Random.Shared.Next(Tilesets.Count)], columns, rows);
+        Toppers = new(Toppersets[Random.Shared.Next(Toppersets.Count)], columns, rows);
 
-        GameLevel level = new(Tilemap, GetRandomBackground());
+        GameLevel level = new(Tilemap, Toppers, GetRandomBackground());
 
         int groundHeight = 3;
         int pillarHeight = 2;

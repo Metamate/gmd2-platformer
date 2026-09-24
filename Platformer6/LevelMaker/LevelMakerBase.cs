@@ -24,6 +24,7 @@ public abstract class LevelMakerBase
     public List<TextureRegion> Gems { get; } = [];
     public List<TextureRegion> MysteryBoxes { get; } = [];
     protected Tilemap Tilemap { get; set; }
+    protected Tilemap Toppers { get; set; }
 
     public LevelMakerBase(ContentManager content)
     {
@@ -75,7 +76,8 @@ public abstract class LevelMakerBase
             {
                 if (y == Tilemap.Rows - groundHeight)
                 {
-                    Tilemap.SetTile(x, y, new Tile(12, 0, true));
+                    Tilemap.SetTile(x, y, new Tile(12, true));
+                    Toppers.SetTile(x, y, new Tile(0));
                 }
                 else
                 {

@@ -9,6 +9,7 @@ public class SimpleLevelMaker(ContentManager content) : LevelMakerBase(content)
     public override GameLevel Generate(int columns, int rows)
     {
         Tilemap = new(Tilesets[Random.Shared.Next(Tilesets.Count)], columns, rows);
+        Toppers = new(Toppersets[Random.Shared.Next(Toppersets.Count)], columns, rows);
 
         for (int i = 0; i < Tilemap.Count; i++)
         {
@@ -18,6 +19,6 @@ public class SimpleLevelMaker(ContentManager content) : LevelMakerBase(content)
             Tilemap.SetTile(x, y, new Tile(0, false));
         }
 
-        return new GameLevel(Tilemap, GetRandomBackground());
+        return new GameLevel(Tilemap, Toppers, GetRandomBackground());
     }
 }
