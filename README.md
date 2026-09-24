@@ -1,6 +1,6 @@
 # gmd2-platformer
 
-Source code for session **05 Super Mario Bros** of the Game Architecture (GAR) course: a 2D
+Source code for session **06 Super Mario Bros** of the Game Architecture (GAR) course: a 2D
 platformer with procedural levels, the State pattern, a camera and platformer physics.
 
 The game is built up in steps. Each step is a separate project that builds on the previous
